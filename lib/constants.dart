@@ -22,7 +22,8 @@ final password = 'password';
 RegExp emailRegExp = new RegExp(
     r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
 
-authHeaders() async {
+//headers
+Future<dynamic> authHeaders() async {
   final prefs = await SharedPreferences.getInstance();
   final aToken = prefs.getString(authToken) ?? '';
   return {'Authorization': 'Token $aToken'};

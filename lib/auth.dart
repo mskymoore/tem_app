@@ -21,8 +21,9 @@ Future<bool> tokenLogin(formData) async {
     return true;
   } else {
     prefs.setBool(isLoggedIn, false);
-    prefs.setString(
-        lastApiResponseMessage, "${response.statusCode}: ${response.body}");
+    prefs.setString(lastApiResponseMessage,
+            jsonDecode(response.body)['non_field_errors'][0]) ??
+        "";
   }
 
   return false;

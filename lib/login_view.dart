@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/auth.dart';
 import 'package:tem_app/login_form.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
 
   final String title;
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
