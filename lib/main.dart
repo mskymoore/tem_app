@@ -1,11 +1,14 @@
-import 'dart:io';
+//import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(TemApp());
 }
+
+String auth_token = 'auth_token';
 
 class FormData {
   String email;
@@ -34,7 +37,7 @@ class TemApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tem App Beta',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: LoginPage(title: 'TEM APP BETA'),
@@ -54,7 +57,6 @@ class TemLoginFormState extends State<TemLoginForm> {
   RegExp emailRegExp = new RegExp(
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
   FormData formData = FormData();
-  String auth_token;
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +110,12 @@ class TemLoginFormState extends State<TemLoginForm> {
                 );
 
                 if (response.statusCode == 200) {
-                  auth_token = jsonDecode(response.body)['auth_token'];
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setString(
+                      auth_token, jsonDecode(response.body)[auth_token]);
 
-                  _showDialog("Successful Login: ${auth_token}");
+                  _showDialog(
+                      "Successful Login: ${prefs.getString(auth_token)}");
                 } else {
                   _showDialog("Failed Login: ${response.statusCode}");
                 }
@@ -155,6 +160,21 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.arrow_forward),
+            tooltip: 'Logout',
+            onPressed: () async {
+              final uri = 'https://api.rwx.dev/auth/token/logout';
+              final prefs = await SharedPreferences.getInstance();
+              var a_token = prefs.getString(auth_token);
+              http.Response response = await http
+                  .post(uri, headers: {'Authorization': 'Token $a_token'});
+              print(response.statusCode);
+              print(response.body);
+            },
+          )
+        ],
       ),
       body: Center(
         child: Column(
