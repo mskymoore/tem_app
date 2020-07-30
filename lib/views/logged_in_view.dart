@@ -58,19 +58,19 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Logged In"),
-            RaisedButton(
-              onPressed: () async {
-                final worklogs = await getWorklogs();
-                setState(() {
-                  this.worklogs = worklogs;
-                });
-              },
-              child: Text("Get Worklogs"),
-            ),
             Expanded(child: WorklogList(this.worklogs)),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final worklogs = await getWorklogs();
+          setState(() {
+            this.worklogs = worklogs;
+          });
+        },
+        child: Icon(Icons.replay),
+        backgroundColor: Colors.green,
       ),
     );
   }

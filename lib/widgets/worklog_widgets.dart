@@ -29,10 +29,11 @@ class WorklogCard extends StatelessWidget {
     return GestureDetector(
         onTap: () => print("tapped dat"),
         child: Card(
-            child: Column(children: <Widget>[
-          Text("${this.worklogs['results'][index]['summary']}"),
-          Text("${this.worklogs['results'][index]['client']}"),
-          Text("${this.worklogs['results'][index]['site']}"),
-        ])));
+            child: ListTile(
+                title: Text("${this.worklogs['results'][index]['summary']}"),
+                subtitle: Column(children: <Widget>[
+                  Text("${this.worklogs['results'][index]['client']}"),
+                  Text("${this.worklogs['results'][index]['site']}"),
+                ]))));
   }
 }
