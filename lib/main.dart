@@ -8,7 +8,14 @@ void main() {
   runApp(TemApp());
 }
 
-String auth_token = 'auth_token';
+final auth_token = 'auth_token';
+final baseUri = 'https://api.rwx.dev/';
+
+Future authHeaders() async {
+  final prefs = await SharedPreferences.getInstance();
+  final aToken = prefs.getString(auth_token);
+  return {'Authorization': 'Token $aToken'};
+}
 
 class FormData {
   String email;
@@ -102,8 +109,7 @@ class TemLoginFormState extends State<TemLoginForm> {
                 var map = new Map<String, dynamic>();
                 map['email'] = formData.email;
                 map['password'] = formData.password;
-
-                final uri = 'https://api.rwx.dev/auth/token/login';
+                final uri = '${baseUri}auth/token/login';
                 http.Response response = await http.post(
                   uri,
                   body: map,
@@ -165,11 +171,9 @@ class _LoginPageState extends State<LoginPage> {
             icon: const Icon(Icons.arrow_forward),
             tooltip: 'Logout',
             onPressed: () async {
-              final uri = 'https://api.rwx.dev/auth/token/logout';
-              final prefs = await SharedPreferences.getInstance();
-              var a_token = prefs.getString(auth_token);
-              http.Response response = await http
-                  .post(uri, headers: {'Authorization': 'Token $a_token'});
+              final uri = '${baseUri}auth/token/logout';
+              final auth = await authHeaders();
+              http.Response response = await http.post(uri, headers: auth);
               print(response.statusCode);
               print(response.body);
             },
