@@ -1,35 +1,41 @@
 //import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tem_app/auth.dart';
+import 'package:tem_app/constants.dart';
 
 void main() {
   runApp(TemApp());
 }
 
-final auth_token = 'auth_token';
-final baseUri = 'https://api.rwx.dev/';
-
-Future authHeaders() async {
-  final prefs = await SharedPreferences.getInstance();
-  final aToken = prefs.getString(auth_token);
-  return {'Authorization': 'Token $aToken'};
+void _showDialog(String message, BuildContext context) {
+  showDialog(
+    context: context,
+    child: AlertDialog(
+      title: Text(message),
+      actions: [
+        FlatButton(
+          child: Text('OK'),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ],
+    ),
+  );
 }
 
 class FormData {
-  String email;
-  String password;
+  String formEmail;
+  String formPassword;
   FormData({
-    this.email,
-    this.password,
+    this.formEmail,
+    this.formPassword,
   });
 
   // unused but leaving as an example for now
   static String toJson(FormData data) {
     Map<String, dynamic> map() => {
-          'email': data.email,
-          'password': data.password,
+          email: data.formEmail,
+          password: data.formPassword,
         };
 
     String jsonPayload = jsonEncode(map());
@@ -61,8 +67,6 @@ class TemLoginForm extends StatefulWidget {
 
 class TemLoginFormState extends State<TemLoginForm> {
   final _formKey = GlobalKey<FormState>();
-  RegExp emailRegExp = new RegExp(
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
   FormData formData = FormData();
 
   @override
@@ -81,7 +85,7 @@ class TemLoginFormState extends State<TemLoginForm> {
                 return 'Invalid email address';
               }
               setState(() {
-                formData.email = value;
+                formData.formEmail = value;
               });
               return null;
             },
@@ -98,7 +102,7 @@ class TemLoginFormState extends State<TemLoginForm> {
                 return 'Password must be at least 8 characters';
               }
               setState(() {
-                formData.password = value;
+                formData.formPassword = value;
               });
               return null;
             },
@@ -106,48 +110,17 @@ class TemLoginFormState extends State<TemLoginForm> {
           RaisedButton(
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                var map = new Map<String, dynamic>();
-                map['email'] = formData.email;
-                map['password'] = formData.password;
-                final uri = '${baseUri}auth/token/login';
-                http.Response response = await http.post(
-                  uri,
-                  body: map,
+                FutureBuilder(
+                  future: login(formData),
+                  builder: (context, snapshot) {
+                    print(snapshot.toString());
+                  },
                 );
-
-                if (response.statusCode == 200) {
-                  final prefs = await SharedPreferences.getInstance();
-                  prefs.setString(
-                      auth_token, jsonDecode(response.body)[auth_token]);
-
-                  _showDialog(
-                      "Successful Login: ${prefs.getString(auth_token)}");
-                } else {
-                  _showDialog("Failed Login: ${response.statusCode}");
-                }
-
-                print(response.statusCode);
-                print(response.body);
               }
             },
             child: Text('Submit'),
           )
         ]));
-  }
-
-  void _showDialog(String message) {
-    showDialog(
-      context: context,
-      child: AlertDialog(
-        title: Text(message),
-        actions: [
-          FlatButton(
-            child: Text('OK'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
-      ),
-    );
   }
 }
 
@@ -171,11 +144,11 @@ class _LoginPageState extends State<LoginPage> {
             icon: const Icon(Icons.arrow_forward),
             tooltip: 'Logout',
             onPressed: () async {
-              final uri = '${baseUri}auth/token/logout';
-              final auth = await authHeaders();
-              http.Response response = await http.post(uri, headers: auth);
-              print(response.statusCode);
-              print(response.body);
+              FutureBuilder(
+                  future: logout(),
+                  builder: (context, snapshot) {
+                    print(snapshot.toString());
+                  });
             },
           )
         ],
