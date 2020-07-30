@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:tem_app/constants.dart';
+import 'package:tem_app/config/constants.dart';
 import 'dart:convert';
 
 // async api methods go here
@@ -8,11 +8,10 @@ Future getWorklogs() async {
       '${baseUri}/${apiPrefix}/worklog/?expand=equipment_charges,manhours_charges';
   final response = await http.get(logoutUri, headers: await authHeaders());
 
-  print("logout response code ${response.statusCode}");
+  print("worklogs response code ${response.statusCode}");
 
   if (response.statusCode == 200) {
     final responseBody = jsonDecode(response.body);
-    print(responseBody);
     return responseBody;
   } else {
     final prefs = await appPrefs();

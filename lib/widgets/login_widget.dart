@@ -1,28 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:tem_app/auth.dart';
-import 'package:tem_app/constants.dart';
-import 'package:tem_app/logged_in_view.dart';
-
-class FormData {
-  String formEmail;
-  String formPassword;
-  FormData({
-    this.formEmail,
-    this.formPassword,
-  });
-
-  // unused but leaving as an example for now
-  static String toJson(FormData data) {
-    Map<String, dynamic> map() => {
-          email: data.formEmail,
-          password: data.formPassword,
-        };
-
-    String jsonPayload = jsonEncode(map());
-    return jsonPayload;
-  }
-}
+import 'package:tem_app/rest/auth.dart';
+import 'package:tem_app/config/constants.dart';
+import 'package:tem_app/views/logged_in_view.dart';
 
 class TemLoginForm extends StatefulWidget {
   @override
@@ -33,7 +13,7 @@ class TemLoginForm extends StatefulWidget {
 
 class TemLoginFormState extends State<TemLoginForm> {
   final _formKey = GlobalKey<FormState>();
-  FormData formData = FormData();
+  Map formData = {email: '', password: ''};
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +31,7 @@ class TemLoginFormState extends State<TemLoginForm> {
                 return 'Invalid email address';
               }
               setState(() {
-                formData.formEmail = value;
+                formData[email] = value;
               });
               return null;
             },
@@ -59,16 +39,15 @@ class TemLoginFormState extends State<TemLoginForm> {
           TextFormField(
             obscureText: true,
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock),
-              hintText: 'What\'s your password?',
-              labelText: 'Password',
-            ),
+                icon: Icon(Icons.lock),
+                hintText: 'What\'s your password?',
+                labelText: 'Password'),
             validator: (value) {
               if (value.length < 8) {
                 return 'Password must be at least 8 characters';
               }
               setState(() {
-                formData.formPassword = value;
+                formData[password] = value;
               });
               return null;
             },

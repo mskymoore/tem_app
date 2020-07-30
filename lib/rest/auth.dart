@@ -1,15 +1,12 @@
 import 'package:http/http.dart' as http;
-import 'package:tem_app/constants.dart';
+import 'package:tem_app/config/constants.dart';
 import 'dart:convert';
 
 Future<bool> tokenLogin(formData) async {
   final loginUri = '${baseUri}/${authPrefix}/token/login';
-  var map = new Map<String, dynamic>();
-  map[email] = formData.formEmail;
-  map[password] = formData.formPassword;
   http.Response response = await http.post(
     loginUri,
-    body: map,
+    body: formData,
   );
   final prefs = await appPrefs();
 

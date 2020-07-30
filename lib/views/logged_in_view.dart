@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/auth.dart';
-import 'package:tem_app/login_view.dart';
-import 'package:tem_app/api.dart';
-import 'package:tem_app/worklog_widgets.dart';
+import 'package:tem_app/rest/auth.dart';
+import 'package:tem_app/views/login_view.dart';
+import 'package:tem_app/rest/api.dart';
+import 'package:tem_app/widgets/worklog_widgets.dart';
 
 Route mainPageRoute() {
   return PageRouteBuilder(
