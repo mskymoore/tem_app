@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/rest/auth.dart';
 import 'package:tem_app/views/login.dart';
-import 'package:tem_app/widgets/feedback.dart';
+import 'package:tem_app/widgets/loading.dart';
 
 class DrawerFutureBuilder extends StatelessWidget {
   DrawerFutureBuilder();

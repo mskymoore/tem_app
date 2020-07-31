@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/widgets/feedback.dart';
+import 'package:tem_app/widgets/loading.dart';
 import 'package:tem_app/rest/api.dart';
 import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/views/logged_in.dart';
