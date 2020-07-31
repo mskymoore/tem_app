@@ -3,7 +3,7 @@ import 'package:tem_app/config/constants.dart';
 import 'dart:convert';
 
 // async api methods go here
-Future getWorklogs() async {
+Future<Map> getWorklogs() async {
   final logoutUri =
       '${baseUri}/${apiPrefix}/worklog/?expand=equipment_charges,manhours_charges';
   final response = await http.get(logoutUri, headers: await authHeaders());

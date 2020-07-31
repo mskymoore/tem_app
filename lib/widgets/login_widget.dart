@@ -17,76 +17,77 @@ class TemLoginFormState extends State<TemLoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Column(children: <Widget>[
-          TextFormField(
-            decoration: const InputDecoration(
-              icon: Icon(Icons.person),
-              hintText: 'What\'s your email address?',
-              labelText: 'Email Address',
-            ),
-            validator: (value) {
-              if (!emailRegExp.hasMatch(value)) {
-                return 'Invalid email address';
-              }
-              setState(() {
-                formData[email] = value;
-              });
-              return null;
-            },
-          ),
-          TextFormField(
-            obscureText: true,
-            decoration: const InputDecoration(
-                icon: Icon(Icons.lock),
-                hintText: 'What\'s your password?',
-                labelText: 'Password'),
-            validator: (value) {
-              if (value.length < 8) {
-                return 'Password must be at least 8 characters';
-              }
-              setState(() {
-                formData[password] = value;
-              });
-              return null;
-            },
-          ),
-          RaisedButton(
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                bool loginSuccess = await tokenLogin(formData);
-                final prefs = await appPrefs();
-                if (loginSuccess) {
-                  final user = await usersMe();
-                  final worklogs = await getWorklogs();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MainPage(
-                              'TEM APP BETA',
-                              user[username],
-                              "${user[firstName]} ${user[lastName]}",
-                              worklogs)));
-                } else {
-                  showDialog(
-                    context: context,
-                    child: AlertDialog(
-                      title:
-                          Text(prefs.getString(lastApiResponseMessage) ?? ""),
-                      actions: [
-                        FlatButton(
-                          child: Text('OK'),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              }
-            },
-            child: Text('Login'),
-          )
-        ]));
+    return Padding(
+        padding: EdgeInsets.all(30),
+        child: Form(
+            key: _formKey,
+            child: Column(children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.person),
+                  hintText: 'What\'s your email address?',
+                  labelText: 'Email Address',
+                ),
+                validator: (value) {
+                  if (!emailRegExp.hasMatch(value)) {
+                    return 'Invalid email address';
+                  }
+                  setState(() {
+                    formData[email] = value;
+                  });
+                  return null;
+                },
+              ),
+              TextFormField(
+                obscureText: true,
+                decoration: const InputDecoration(
+                    icon: Icon(Icons.lock),
+                    hintText: 'What\'s your password?',
+                    labelText: 'Password'),
+                validator: (value) {
+                  if (value.length < 8) {
+                    return 'Password must be at least 8 characters';
+                  }
+                  setState(() {
+                    formData[password] = value;
+                  });
+                  return null;
+                },
+              ),
+              Padding(
+                  padding: EdgeInsets.all(10),
+                  child: RaisedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        final prefs = await appPrefs();
+                        bool loginSuccess = await tokenLogin(formData);
+                        if (loginSuccess) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MainPage(
+                                        'TEM APP BETA',
+                                      )));
+                        } else {
+                          showDialog(
+                            context: context,
+                            child: AlertDialog(
+                              title: Text(
+                                  prefs.getString(lastApiResponseMessage) ??
+                                      ""),
+                              actions: [
+                                FlatButton(
+                                  child: Text('OK'),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      }
+                    },
+                    child: Text('Login'),
+                  ))
+            ])));
   }
 }

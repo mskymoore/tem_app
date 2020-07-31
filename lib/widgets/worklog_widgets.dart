@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 class WorklogList extends StatelessWidget {
-  Map worklogs = {'results': []};
-  WorklogList(worklogs) {
-    this.worklogs = worklogs;
-  }
+  final Map worklogs;
+  WorklogList(this.worklogs);
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +16,10 @@ class WorklogList extends StatelessWidget {
 }
 
 class WorklogCard extends StatelessWidget {
-  Map worklogs = {'results': []};
-  int index = 0;
-  WorklogCard(worklogs, index) {
-    this.worklogs = worklogs;
-    this.index = index;
-  }
+  final Map worklogs;
+  final int index;
+  WorklogCard(this.worklogs, this.index);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

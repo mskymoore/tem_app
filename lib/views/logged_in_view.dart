@@ -7,10 +7,8 @@ import 'package:tem_app/widgets/worklog_widgets.dart';
 
 class MainPage extends StatefulWidget {
   final String title;
-  final String userName;
-  final String accountName;
   Map worklogs;
-  MainPage(this.title, this.userName, this.accountName, this.worklogs);
+  MainPage(this.title);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -21,37 +19,50 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text(widget.accountName),
-              accountEmail: Text(widget.userName),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor:
-                    Theme.of(context).platform == TargetPlatform.iOS
-                        ? Colors.blue
-                        : Colors.white,
-                child: Text(
-                  widget.accountName[0],
-                  style: TextStyle(fontSize: 40.0),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text("Refresh"),
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            ListTile(
-                title: Text("Logout"),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  tokenLogout();
-                  Navigator.of(context).pop(LoginPage(title: "TEM APP BETA"));
-                }),
-          ],
-        ),
-      ),
+          child: FutureBuilder<Map>(
+              future: usersMe(),
+              builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView(
+                    children: <Widget>[
+                      UserAccountsDrawerHeader(
+                        accountName: Text(
+                            "${snapshot.data[firstName]} ${snapshot.data[lastName]}"),
+                        accountEmail: Text(snapshot.data[username]),
+                        currentAccountPicture: CircleAvatar(
+                          backgroundColor:
+                              Theme.of(context).platform == TargetPlatform.iOS
+                                  ? Colors.blue
+                                  : Colors.white,
+                          child: Text(
+                            snapshot.data[firstName][0],
+                            style: TextStyle(fontSize: 40.0),
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text("Refresh"),
+                        trailing: Icon(Icons.arrow_forward),
+                      ),
+                      ListTile(
+                          title: Text("Logout"),
+                          trailing: Icon(Icons.arrow_forward),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            tokenLogout();
+                            Navigator.of(context)
+                                .pop(LoginPage(title: "TEM APP BETA"));
+                          }),
+                    ],
+                  );
+                } else {
+                  return Center(
+                      child: SizedBox(
+                          height: 108.0,
+                          width: 108.0,
+                          child: CircularProgressIndicator()));
+                }
+              })),
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[],
@@ -60,15 +71,28 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(child: WorklogList(widget.worklogs)),
+            Expanded(
+                child: FutureBuilder<Map>(
+                    future: getWorklogs(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Map> snapshot) {
+                      if (snapshot.hasData) {
+                        return WorklogList(snapshot.data);
+                      } else {
+                        return Center(
+                            child: SizedBox(
+                                height: 108.0,
+                                width: 108.0,
+                                child: CircularProgressIndicator()));
+                      }
+                    }))
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final worklogs = await getWorklogs();
+        onPressed: () {
           setState(() {
-            widget.worklogs = worklogs;
+            widget.worklogs = {'results': []};
           });
         },
         child: Icon(Icons.replay),
