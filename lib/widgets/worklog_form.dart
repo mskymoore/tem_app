@@ -22,6 +22,9 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
     'equipment_charges': [],
     'included_employees': []
   };
+  String client;
+  String region;
+  String site;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
             child: Column(children: <Widget>[
               TextFormField(
                 decoration: const InputDecoration(
-                  icon: Icon(Icons.person),
+                  icon: Icon(Icons.work),
                   hintText: 'Summarize your worklog...',
                   labelText: 'Summary',
                 ),
@@ -48,19 +51,40 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
               ),
               SizedBox(
                   width: double.infinity,
-                  child: DropDownWidget(Text("Choose the client"), getClients)),
+                  child: DropDownWidget(
+                      Text("Choose the client"),
+                      getClients,
+                      (value) => {
+                            setState(() {
+                              this.client = value;
+                            })
+                          })),
               SizedBox(
                   width: double.infinity,
-                  child: DropDownWidget(Text("Choose the region"), getRegions)),
+                  child: DropDownWidget(
+                      Text("Choose the region"),
+                      getRegions,
+                      (value) => {
+                            setState(() {
+                              this.region = value;
+                            })
+                          })),
               SizedBox(
                   width: double.infinity,
-                  child: DropDownWidget(Text("Choose the Site"), getSites)),
+                  child: DropDownWidget(
+                      Text("Choose the Site"),
+                      getSites,
+                      (value) => {
+                            setState(() {
+                              this.site = value;
+                            })
+                          })),
               Padding(
                   padding: EdgeInsets.all(10),
                   child: RaisedButton(
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        print("worklog form validated");
+                        print(this.region);
                       }
                     },
                     child: Text('Submit'),

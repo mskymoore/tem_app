@@ -4,7 +4,8 @@ import 'package:tem_app/widgets/loading.dart';
 class DropDownWidget extends StatefulWidget {
   final Text hint;
   final dropDownFuture;
-  DropDownWidget(this.hint, this.dropDownFuture);
+  final getValue;
+  DropDownWidget(this.hint, this.dropDownFuture, this.getValue);
 
   @override
   _DropDownWidgetState createState() => _DropDownWidgetState();
@@ -25,14 +26,13 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                 for (var i = 0; i < snapshot.data['results'].length; i++) {
                   theItems.add(DropdownMenuItem(
                       value: snapshot.data['results'][i]['name'],
-                      child: Center(
-                          child: Text(
+                      child: Text(
                         snapshot.data['results'][i]['name'],
-                      ))));
+                      )));
                 }
                 return DropdownButton<String>(
                   value: dropdownValue,
-                  hint: Align(alignment: Alignment.center, child: widget.hint),
+                  hint: widget.hint,
                   icon: Icon(Icons.arrow_downward),
                   iconSize: 24,
                   elevation: 16,
@@ -44,8 +44,10 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                   onChanged: (String newValue) {
                     setState(() {
                       dropdownValue = newValue;
+                      widget.getValue(dropdownValue);
                     });
                   },
+                  isExpanded: true,
                   items: theItems,
                 );
               } else if (snapshot.connectionState == ConnectionState.done) {
