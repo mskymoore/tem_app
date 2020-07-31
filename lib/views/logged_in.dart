@@ -4,7 +4,6 @@ import 'package:tem_app/widgets/scaffold.dart';
 
 class MainPage extends StatefulWidget {
   final String title;
-  Map worklogs;
   MainPage(this.title);
 
   @override

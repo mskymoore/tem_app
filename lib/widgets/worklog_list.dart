@@ -63,6 +63,5 @@ class WorklogCard extends StatelessWidget {
             ]),
           ]),
         )));
-    ;
   }
 }

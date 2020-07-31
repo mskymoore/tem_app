@@ -3,14 +3,14 @@ import 'package:tem_app/config/constants.dart';
 import 'dart:convert';
 
 Future<bool> tokenLogin(formData) async {
-  final loginUri = '${baseUri}/${authPrefix}/token/login';
+  final loginUri = '$baseUri/$authPrefix/token/login';
   http.Response response = await http.post(
     loginUri,
     body: formData,
   );
   final prefs = await appPrefs();
 
-  print("http(${response.statusCode}): ${loginUri}");
+  print("http(${response.statusCode}): $loginUri");
 
   if (response.statusCode == 200) {
     prefs.setString(authToken, jsonDecode(response.body)[authToken]);
@@ -22,11 +22,11 @@ Future<bool> tokenLogin(formData) async {
   }
 }
 
-Future<http.Response> tokenLogout() async {
-  final logoutUri = '${baseUri}/${authPrefix}/token/logout';
+void tokenLogout() async {
+  final logoutUri = '$baseUri/$authPrefix/token/logout';
   final response = await http.post(logoutUri, headers: await authHeaders());
 
-  print("http(${response.statusCode}): ${logoutUri}");
+  print("http(${response.statusCode}): $logoutUri");
 
   if (response.statusCode != 204) {
     final prefs = await appPrefs();
@@ -36,11 +36,11 @@ Future<http.Response> tokenLogout() async {
 }
 
 Future<Map> usersMe() async {
-  final meUri = '${baseUri}/${authPrefix}/users/me';
+  final meUri = '$baseUri/$authPrefix/users/me';
   final response = await http.get(meUri, headers: await authHeaders());
   final prefs = await appPrefs();
 
-  print("http(${response.statusCode}): ${meUri}");
+  print("http(${response.statusCode}): $meUri");
 
   if (response.statusCode == 200) {
     final user = jsonDecode(response.body);
@@ -50,5 +50,6 @@ Future<Map> usersMe() async {
   } else {
     prefs.setString(
         lastApiResponseMessage, "${response.statusCode}: ${response.body}");
+    return Map();
   }
 }

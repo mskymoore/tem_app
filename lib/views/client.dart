@@ -5,7 +5,6 @@ import 'package:tem_app/rest/api.dart';
 
 class ClientPage extends StatefulWidget {
   final String title;
-  Map worklogs;
   ClientPage(this.title);
 
   @override

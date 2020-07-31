@@ -22,9 +22,9 @@ Future<Map> getPath(String path) async {
 // async api methods go here
 Future<Map> getWorklogs() async {
   return getPath(
-      '${baseUri}/${apiPrefix}/worklog/?expand=equipment_charges,manhours_charges,created_by');
+      '$baseUri/$apiPrefix/worklog/?expand=equipment_charges,manhours_charges,created_by');
 }
 
 Future<Map> getClients() async {
-  return getPath('${baseUri}/${apiPrefix}/client');
+  return getPath('$baseUri/$apiPrefix/client');
 }
