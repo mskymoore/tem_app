@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/rest/auth.dart';
-import 'package:tem_app/views/login.dart';
 import 'package:tem_app/widgets/loading.dart';
-import 'package:tem_app/views/client.dart';
 
 class DrawerFutureBuilder extends StatelessWidget {
   DrawerFutureBuilder();
@@ -51,14 +49,14 @@ class DrawerContentsWidget extends StatelessWidget {
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushReplacementNamed('/client');
+                Navigator.of(context).pushNamed('/client');
               }),
           ListTile(
               title: Text("Worklogs"),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushReplacementNamed('/worklog');
+                Navigator.of(context).pushNamed('/worklog');
               }),
           ListTile(
               title: Text("Logout"),

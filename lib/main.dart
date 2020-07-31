@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/views/login.dart';
 import 'package:tem_app/config/routes.dart';
 
 void main() {
