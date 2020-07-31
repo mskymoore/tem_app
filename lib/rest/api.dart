@@ -2,6 +2,13 @@ import 'package:http/http.dart' as http;
 import 'package:tem_app/config/constants.dart';
 import 'dart:convert';
 
+void setLastMessage(code, path, body) async {
+  final prefs = await appPrefs();
+  prefs.setString(
+      lastApiResponseMessage, "http($code): $path: ${body['detail']}");
+  print(prefs.getString(lastApiResponseMessage));
+}
+
 Future<Map> getPath(String path) async {
   final requestPath = "$baseUri/$apiPrefix/$path";
   final response = await http.get(requestPath, headers: await authHeaders());
@@ -11,10 +18,23 @@ Future<Map> getPath(String path) async {
     print("http(${response.statusCode}): $requestPath");
     return responseBody;
   } else {
-    final prefs = await appPrefs();
-    prefs.setString(lastApiResponseMessage,
-        "http(${response.statusCode}): $requestPath: ${responseBody['detail']}");
-    print(prefs.getString(lastApiResponseMessage));
+    setLastMessage(response.statusCode, requestPath, responseBody);
+    return null;
+  }
+}
+
+Future<Map> postPath(String path, Map data) async {
+  final requestPath = "$baseUri/$apiPrefix/$path";
+  final response =
+      await http.post(requestPath, headers: await authHeaders(), body: data);
+
+  final responseBody = jsonDecode(response.body);
+
+  if (response.statusCode == 201) {
+    print("http(${response.statusCode}): $requestPath");
+    return responseBody;
+  } else {
+    setLastMessage(response.statusCode, requestPath, responseBody);
     return null;
   }
 }
