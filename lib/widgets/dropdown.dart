@@ -45,6 +45,8 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                   },
                   items: theItems,
                 );
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                return Text("An error occurred.");
               } else {
                 return LoadingCircleWidget(20.0);
               }

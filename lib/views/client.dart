@@ -21,6 +21,10 @@ class _ClientPageState extends State<ClientPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             DropDownWidget(Text("Clients"), getClients),
+            DropDownWidget(Text("Rates"), getRates),
+            DropDownWidget(Text("Regions"), getRegions),
+            DropDownWidget(Text("Sites"), getSites),
+            DropDownWidget(Text("DayRates"), getDayRates),
           ],
         ),
       ),

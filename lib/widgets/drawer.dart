@@ -47,7 +47,7 @@ class DrawerContentsWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-              title: Text("Clients"),
+              title: Text("Info"),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Navigator.of(context).pop();
