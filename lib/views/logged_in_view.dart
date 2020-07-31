@@ -1,33 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/rest/auth.dart';
 import 'package:tem_app/views/login_view.dart';
 import 'package:tem_app/rest/api.dart';
 import 'package:tem_app/widgets/worklog_widgets.dart';
 
-Route mainPageRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => MainPage(
-      title: "TEM APP BETA",
-    ),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = Offset(0.0, 1.0);
-      var end = Offset.zero;
-      var curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
-}
-
 class MainPage extends StatefulWidget {
-  MainPage({Key key, this.title}) : super(key: key);
-
   final String title;
+  final String userName;
+  final String accountName;
+  MainPage(this.title, this.userName, this.accountName);
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -37,22 +20,41 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text(widget.accountName),
+              accountEmail: Text(widget.userName),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor:
+                    Theme.of(context).platform == TargetPlatform.iOS
+                        ? Colors.blue
+                        : Colors.white,
+                child: Text(
+                  widget.accountName[0],
+                  style: TextStyle(fontSize: 40.0),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text("Refresh"),
+              trailing: Icon(Icons.arrow_forward),
+            ),
+            ListTile(
+                title: Text("Logout"),
+                trailing: Icon(Icons.arrow_forward),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  tokenLogout();
+                  Navigator.of(context).pop(LoginPage(title: "TEM APP BETA"));
+                }),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.arrow_forward),
-            tooltip: 'Logout',
-            onPressed: () async {
-              FutureBuilder(
-                  future: tokenLogout(),
-                  builder: (context, snapshot) {
-                    print("called logout builder");
-                  });
-              Navigator.of(context).pop(LoginPage(title: "TEM APP BETA"));
-            },
-          )
-        ],
+        actions: <Widget>[],
       ),
       body: Center(
         child: Column(

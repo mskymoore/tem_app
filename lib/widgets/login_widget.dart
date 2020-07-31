@@ -58,11 +58,16 @@ class TemLoginFormState extends State<TemLoginForm> {
                 bool loginSuccess = await tokenLogin(formData);
                 final prefs = await appPrefs();
                 if (loginSuccess) {
+                  final user = await usersMe();
+
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MainPage(title: 'TEM APP BETA')),
-                  );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MainPage(
+                                'TEM APP BETA',
+                                user[username],
+                                "${user[firstName]} ${user[lastName]}",
+                              )));
                 } else {
                   showDialog(
                     context: context,

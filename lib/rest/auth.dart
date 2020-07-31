@@ -40,3 +40,21 @@ Future<http.Response> tokenLogout() async {
         lastApiResponseMessage, "${response.statusCode}: ${response.body}");
   }
 }
+
+Future<Map> usersMe() async {
+  final meUri = '${baseUri}/${authPrefix}/users/me';
+  final response = await http.get(meUri, headers: await authHeaders());
+  final prefs = await appPrefs();
+
+  print("me response code ${response.statusCode}");
+
+  if (response.statusCode == 200) {
+    final user = jsonDecode(response.body);
+    prefs.setString(username, user[username]);
+    prefs.setString(name, "${user[firstName]} ${user[lastName]}");
+    return user;
+  } else {
+    prefs.setString(
+        lastApiResponseMessage, "${response.statusCode}: ${response.body}");
+  }
+}

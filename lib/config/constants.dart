@@ -8,6 +8,8 @@ Future<SharedPreferences> appPrefs() async {
 final authToken = 'auth_token';
 final isLoggedIn = 'isLoggedIn';
 final lastApiResponseMessage = 'lastMessage';
+final username = 'username';
+final name = 'name';
 
 //configuration
 final baseUri = 'https://api.rwx.dev';
@@ -17,6 +19,8 @@ final apiPrefix = 'api';
 //string constants
 final email = 'email';
 final password = 'password';
+final firstName = 'first_name';
+final lastName = 'last_name';
 
 //regular expressions
 RegExp emailRegExp = new RegExp(
