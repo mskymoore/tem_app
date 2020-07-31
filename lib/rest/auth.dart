@@ -50,6 +50,6 @@ Future<Map> usersMe() async {
   } else {
     prefs.setString(
         lastApiResponseMessage, "${response.statusCode}: ${response.body}");
-    return Map();
+    return null;
   }
 }

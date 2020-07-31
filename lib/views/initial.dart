@@ -14,9 +14,6 @@ class IsLoginRequired extends StatelessWidget {
         future: usersMe(),
         builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.keys.length == 0) {
-              return LoginPage(title: "TEM LOG IN");
-            }
             return MainPage("TEM APP BETA");
           } else if (snapshot.connectionState == ConnectionState.done) {
             return LoginPage(title: "TEM LOG IN");
