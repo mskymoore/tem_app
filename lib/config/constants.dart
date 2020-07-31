@@ -6,10 +6,10 @@ Future<SharedPreferences> appPrefs() async {
 
 //preferences keys
 final authToken = 'auth_token';
-final isLoggedIn = 'isLoggedIn';
 final lastApiResponseMessage = 'lastMessage';
 final username = 'username';
 final name = 'name';
+final id = 'id';
 
 //configuration
 final baseUri = 'https://api.rwx.dev';

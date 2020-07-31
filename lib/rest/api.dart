@@ -2,10 +2,13 @@ import 'package:http/http.dart' as http;
 import 'package:tem_app/config/constants.dart';
 import 'dart:convert';
 
-void setLastMessage(code, path, body) async {
+void setLastMessage(code, path, body, key) async {
   final prefs = await appPrefs();
-  prefs.setString(
-      lastApiResponseMessage, "http($code): $path: ${body['detail']}");
+  if (key != null) {
+    prefs.setString(lastApiResponseMessage, "http($code): $path: ${body[key]}");
+  } else {
+    prefs.setString(lastApiResponseMessage, "http($code): $path: $body");
+  }
   print(prefs.getString(lastApiResponseMessage));
 }
 
@@ -18,15 +21,20 @@ Future<Map> getPath(String path) async {
     print("http(${response.statusCode}): $requestPath");
     return responseBody;
   } else {
-    setLastMessage(response.statusCode, requestPath, responseBody);
+    setLastMessage(response.statusCode, requestPath, responseBody, 'detail');
     return null;
   }
 }
 
 Future<Map> postPath(String path, Map data) async {
   final requestPath = "$baseUri/$apiPrefix/$path";
+  final requestData = jsonEncode(data);
+  print(requestData);
+  Map requestHeaders = await authHeaders();
+  requestHeaders['Content-Type'] = 'application/json';
+  print(requestHeaders.toString());
   final response =
-      await http.post(requestPath, headers: await authHeaders(), body: data);
+      await http.post(requestPath, headers: requestHeaders, body: requestData);
 
   final responseBody = jsonDecode(response.body);
 
@@ -34,9 +42,13 @@ Future<Map> postPath(String path, Map data) async {
     print("http(${response.statusCode}): $requestPath");
     return responseBody;
   } else {
-    setLastMessage(response.statusCode, requestPath, responseBody);
+    setLastMessage(response.statusCode, requestPath, responseBody, null);
     return null;
   }
+}
+
+Future<Map> postWorklog(data) async {
+  return postPath('worklog/', data);
 }
 
 // async api methods go here

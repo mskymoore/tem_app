@@ -16,15 +16,12 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
     'summary': '',
     'client': '',
     'created_by': '',
-    'approved': '',
-    'disputed': '',
+    'approved': 'false',
+    'disputed': 'false',
     'manhours_charges': [],
     'equipment_charges': [],
-    'included_employees': []
+    'included_employees': [1]
   };
-  String client;
-  String region;
-  String site;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +53,7 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                       getClients,
                       (value) => {
                             setState(() {
-                              this.client = value;
+                              formData['client'] = value;
                             })
                           })),
               SizedBox(
@@ -66,7 +63,7 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                       getRegions,
                       (value) => {
                             setState(() {
-                              this.region = value;
+                              formData['region'] = value;
                             })
                           })),
               SizedBox(
@@ -76,7 +73,7 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                       getSites,
                       (value) => {
                             setState(() {
-                              this.site = value;
+                              formData['site'] = value;
                             })
                           })),
               Padding(
@@ -84,7 +81,12 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                   child: RaisedButton(
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        print(this.region);
+                        final prefs = await appPrefs();
+                        setState(() {
+                          formData['created_by'] = prefs.getString(id);
+                        });
+
+                        postWorklog(formData);
                       }
                     },
                     child: Text('Submit'),

@@ -46,6 +46,7 @@ Future<Map> usersMe() async {
     final user = jsonDecode(response.body);
     prefs.setString(username, user[username]);
     prefs.setString(name, "${user[firstName]} ${user[lastName]}");
+    prefs.setString(id, "${user[id]}");
     return user;
   } else {
     prefs.setString(
