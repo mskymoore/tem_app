@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/rest/auth.dart';
 import 'package:tem_app/config/constants.dart';
-import 'package:tem_app/views/logged_in.dart';
 
 class TemLoginForm extends StatefulWidget {
   @override
@@ -61,12 +60,8 @@ class TemLoginFormState extends State<TemLoginForm> {
                         final prefs = await appPrefs();
                         bool loginSuccess = await tokenLogin(formData);
                         if (loginSuccess) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainPage(
-                                        'TEM APP BETA',
-                                      )));
+                          Navigator.of(context)
+                              .pushReplacementNamed('/worklog');
                         } else {
                           showDialog(
                             context: context,

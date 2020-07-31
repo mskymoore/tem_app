@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/views/login.dart';
+import 'package:tem_app/config/routes.dart';
 
 void main() {
   runApp(TemApp());
@@ -15,7 +16,8 @@ class TemApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginPage(title: 'TEM APP BETA'),
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

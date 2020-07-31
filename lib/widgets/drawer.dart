@@ -51,10 +51,14 @@ class DrawerContentsWidget extends StatelessWidget {
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ClientPage(
-                          'TEM APP BETA',
-                        )));
+                Navigator.of(context).pushReplacementNamed('/client');
+              }),
+          ListTile(
+              title: Text("Worklogs"),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed('/worklog');
               }),
           ListTile(
               title: Text("Logout"),
@@ -62,7 +66,7 @@ class DrawerContentsWidget extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pop();
                 tokenLogout();
-                Navigator.of(context).pop(LoginPage(title: "TEM APP BETA"));
+                Navigator.of(context).pushReplacementNamed('/');
               }),
         ],
       ),
