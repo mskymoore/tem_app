@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/config/constants.dart';
+import 'package:tem_app/widgets/dropdown.dart';
+import 'package:tem_app/rest/api.dart';
 
 class CreateWorklogForm extends StatefulWidget {
   @override
@@ -10,7 +12,16 @@ class CreateWorklogForm extends StatefulWidget {
 
 class CreateWorklogFormState extends State<CreateWorklogForm> {
   final _formKey = GlobalKey<FormState>();
-  Map formData = {email: '', password: ''};
+  Map formData = {
+    'summary': '',
+    'client': '',
+    'created_by': '',
+    'approved': '',
+    'disputed': '',
+    'manhours_charges': [],
+    'equipment_charges': [],
+    'included_employees': []
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -30,60 +41,29 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                     return 'Please enter a summary.';
                   }
                   setState(() {
-                    formData[email] = value;
+                    formData['summary'] = value;
                   });
                   return null;
                 },
               ),
-              TextFormField(
-                decoration: const InputDecoration(
-                    icon: Icon(Icons.lock),
-                    hintText: 'What\'s your password?',
-                    labelText: 'Password'),
-                validator: (value) {
-                  if (value.length < 8) {
-                    return 'Password must be at least 8 characters';
-                  }
-                  setState(() {
-                    formData[password] = value;
-                  });
-                  return null;
-                },
-              ),
+              SizedBox(
+                  width: double.infinity,
+                  child: DropDownWidget(Text("Choose the client"), getClients)),
+              SizedBox(
+                  width: double.infinity,
+                  child: DropDownWidget(Text("Choose the region"), getRegions)),
+              SizedBox(
+                  width: double.infinity,
+                  child: DropDownWidget(Text("Choose the Site"), getSites)),
               Padding(
                   padding: EdgeInsets.all(10),
                   child: RaisedButton(
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        final prefs = await appPrefs();
-                        //bool loginSuccess = await tokenLogin(formData);
-                        bool loginSuccess = true;
-                        if (loginSuccess) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainPage(
-                                        'TEM APP BETA',
-                                      )));
-                        } else {
-                          showDialog(
-                            context: context,
-                            child: AlertDialog(
-                              title: Text(
-                                  prefs.getString(lastApiResponseMessage) ??
-                                      ""),
-                              actions: [
-                                FlatButton(
-                                  child: Text('OK'),
-                                  onPressed: () => Navigator.of(context).pop(),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
+                        print("worklog form validated");
                       }
                     },
-                    child: Text('Login'),
+                    child: Text('Submit'),
                   ))
             ])));
   }

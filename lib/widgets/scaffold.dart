@@ -18,7 +18,7 @@ class TemScaffold extends StatelessWidget {
             body: this.body,
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                print('pressed plus buttton');
+                Navigator.of(context).pushNamed('/create_worklog');
               },
               child: Icon(Icons.add),
               backgroundColor: Colors.green,

@@ -25,11 +25,14 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                 for (var i = 0; i < snapshot.data['results'].length; i++) {
                   theItems.add(DropdownMenuItem(
                       value: snapshot.data['results'][i]['name'],
-                      child: Text(snapshot.data['results'][i]['name'])));
+                      child: Center(
+                          child: Text(
+                        snapshot.data['results'][i]['name'],
+                      ))));
                 }
                 return DropdownButton<String>(
                   value: dropdownValue,
-                  hint: widget.hint,
+                  hint: Align(alignment: Alignment.center, child: widget.hint),
                   icon: Icon(Icons.arrow_downward),
                   iconSize: 24,
                   elevation: 16,
