@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/rest/auth.dart';
-import 'package:tem_app/rest/api.dart';
 import 'package:tem_app/config/constants.dart';
-import 'package:tem_app/views/logged_in_view.dart';
+import 'package:tem_app/views/initial_logged_in_view.dart';
 
 class TemLoginForm extends StatefulWidget {
   @override

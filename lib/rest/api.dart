@@ -5,7 +5,7 @@ import 'dart:convert';
 // async api methods go here
 Future<Map> getWorklogs() async {
   final logoutUri =
-      '${baseUri}/${apiPrefix}/worklog/?expand=equipment_charges,manhours_charges';
+      '${baseUri}/${apiPrefix}/worklog/?expand=equipment_charges,manhours_charges,created_by';
   final response = await http.get(logoutUri, headers: await authHeaders());
 
   print("worklogs response code ${response.statusCode}");

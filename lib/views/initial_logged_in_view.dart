@@ -95,7 +95,7 @@ class _MainPageState extends State<MainPage> {
             widget.worklogs = {'results': []};
           });
         },
-        child: Icon(Icons.replay),
+        child: Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
     );

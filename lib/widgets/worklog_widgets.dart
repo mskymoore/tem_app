@@ -26,10 +26,24 @@ class WorklogCard extends StatelessWidget {
         onTap: () => print("tapped dat"),
         child: Card(
             child: ListTile(
-                title: Text("${this.worklogs['results'][index]['summary']}"),
-                subtitle: Column(children: <Widget>[
-                  Text("${this.worklogs['results'][index]['client']}"),
-                  Text("${this.worklogs['results'][index]['site']}"),
-                ]))));
+          title: Text(
+              "${this.worklogs['results'][index]['date']} - ${this.worklogs['results'][index]['summary']}"),
+          subtitle: Row(children: <Widget>[
+            Column(children: <Widget>[
+              Text("${this.worklogs['results'][index]['client']}")
+            ]),
+            Column(children: <Widget>[
+              Text(" - ${this.worklogs['results'][index]['site']}")
+            ]),
+            Column(children: <Widget>[
+              Text(
+                  " - created by ${this.worklogs['results'][index]['created_by']['username']}")
+            ]),
+          ]),
+        )));
+    ;
+  }
+}
+
   }
 }
