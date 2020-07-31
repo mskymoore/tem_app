@@ -69,7 +69,7 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
               SizedBox(
                   width: double.infinity,
                   child: DropDownWidget(
-                      Text("Choose the Site"),
+                      Text("Choose the site"),
                       getSites,
                       (value) => {
                             setState(() {

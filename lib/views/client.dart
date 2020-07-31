@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/scaffold.dart';
-import 'package:tem_app/widgets/dropdown.dart';
-import 'package:tem_app/rest/api.dart';
+import 'package:tem_app/widgets/manhours.dart';
 
 class ClientPage extends StatefulWidget {
   final String title;
@@ -19,13 +18,7 @@ class _ClientPageState extends State<ClientPage> {
       Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            //DropDownWidget(Text("Clients"), getClients),
-            //DropDownWidget(Text("Rates"), getRates),
-            //DropDownWidget(Text("Regions"), getRegions),
-            //DropDownWidget(Text("Sites"), getSites),
-            //DropDownWidget(Text("DayRates"), getDayRates),
-          ],
+          children: <Widget>[ManHoursFutureBuilder()],
         ),
       ),
     );

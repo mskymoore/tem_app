@@ -80,3 +80,7 @@ Future<Map> getDayRates() async {
 Future<Map> getRegions() async {
   return getPath('region');
 }
+
+Future<Map> getManHours() async {
+  return getPath('manhrscharge');
+}
