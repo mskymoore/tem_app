@@ -3,6 +3,7 @@ import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/rest/auth.dart';
 import 'package:tem_app/views/login.dart';
 import 'package:tem_app/widgets/loading.dart';
+import 'package:tem_app/views/client.dart';
 
 class DrawerFutureBuilder extends StatelessWidget {
   DrawerFutureBuilder();
@@ -46,9 +47,15 @@ class DrawerContentsWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text("Refresh"),
-            trailing: Icon(Icons.arrow_forward),
-          ),
+              title: Text("Clients"),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ClientPage(
+                          'TEM APP BETA',
+                        )));
+              }),
           ListTile(
               title: Text("Logout"),
               trailing: Icon(Icons.arrow_forward),

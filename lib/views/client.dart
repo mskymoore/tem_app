@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/widgets/worklog_list.dart';
 import 'package:tem_app/widgets/scaffold.dart';
+import 'package:tem_app/widgets/dropdown.dart';
+import 'package:tem_app/rest/api.dart';
 
-class MainPage extends StatefulWidget {
+class ClientPage extends StatefulWidget {
   final String title;
   Map worklogs;
-  MainPage(this.title);
+  ClientPage(this.title);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _ClientPageState createState() => _ClientPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _ClientPageState extends State<ClientPage> {
   @override
   Widget build(BuildContext context) {
     return TemScaffold(
@@ -20,7 +21,7 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            WorklogFutureBuilder(),
+            DropDownWidget(Text("Clients"), getClients),
           ],
         ),
       ),

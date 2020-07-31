@@ -2,13 +2,10 @@ import 'package:http/http.dart' as http;
 import 'package:tem_app/config/constants.dart';
 import 'dart:convert';
 
-// async api methods go here
-Future<Map> getWorklogs() async {
-  final logoutUri =
-      '${baseUri}/${apiPrefix}/worklog/?expand=equipment_charges,manhours_charges,created_by';
-  final response = await http.get(logoutUri, headers: await authHeaders());
+Future<Map> getPath(String path) async {
+  final response = await http.get(path, headers: await authHeaders());
 
-  print("worklogs response code ${response.statusCode}");
+  print("http(${response.statusCode}): $path");
 
   if (response.statusCode == 200) {
     final responseBody = jsonDecode(response.body);
@@ -20,4 +17,14 @@ Future<Map> getWorklogs() async {
     print(prefs.getString(lastApiResponseMessage));
     return Map();
   }
+}
+
+// async api methods go here
+Future<Map> getWorklogs() async {
+  return getPath(
+      '${baseUri}/${apiPrefix}/worklog/?expand=equipment_charges,manhours_charges,created_by');
+}
+
+Future<Map> getClients() async {
+  return getPath('${baseUri}/${apiPrefix}/client');
 }
