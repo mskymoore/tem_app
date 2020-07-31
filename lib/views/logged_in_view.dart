@@ -9,14 +9,14 @@ class MainPage extends StatefulWidget {
   final String title;
   final String userName;
   final String accountName;
-  MainPage(this.title, this.userName, this.accountName);
+  Map worklogs;
+  MainPage(this.title, this.userName, this.accountName, this.worklogs);
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  Map worklogs = {'results': []};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +60,7 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(child: WorklogList(this.worklogs)),
+            Expanded(child: WorklogList(widget.worklogs)),
           ],
         ),
       ),
@@ -68,7 +68,7 @@ class _MainPageState extends State<MainPage> {
         onPressed: () async {
           final worklogs = await getWorklogs();
           setState(() {
-            this.worklogs = worklogs;
+            widget.worklogs = worklogs;
           });
         },
         child: Icon(Icons.replay),

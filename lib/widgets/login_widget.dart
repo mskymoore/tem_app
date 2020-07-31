@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:tem_app/rest/auth.dart';
+import 'package:tem_app/rest/api.dart';
 import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/views/logged_in_view.dart';
 
@@ -59,15 +59,15 @@ class TemLoginFormState extends State<TemLoginForm> {
                 final prefs = await appPrefs();
                 if (loginSuccess) {
                   final user = await usersMe();
-
+                  final worklogs = await getWorklogs();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => MainPage(
-                                'TEM APP BETA',
-                                user[username],
-                                "${user[firstName]} ${user[lastName]}",
-                              )));
+                              'TEM APP BETA',
+                              user[username],
+                              "${user[firstName]} ${user[lastName]}",
+                              worklogs)));
                 } else {
                   showDialog(
                     context: context,
