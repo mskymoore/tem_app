@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/widgets/dropdown.dart';
 import 'package:tem_app/rest/api.dart';
 
 class CreateWorklogForm extends StatefulWidget {
+  // a callback to a parent set state to get data from form
+  final sendFormData;
+
+  CreateWorklogForm(this.sendFormData);
+
   @override
   CreateWorklogFormState createState() {
     return CreateWorklogFormState();
@@ -42,8 +46,15 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                   }
                   setState(() {
                     formData['summary'] = value;
+                    widget.sendFormData(formData);
                   });
                   return null;
+                },
+                onChanged: (value) => {
+                  setState(() {
+                    formData['summary'] = value;
+                    widget.sendFormData(formData);
+                  })
                 },
               ),
               SizedBox(
@@ -54,6 +65,7 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                       (value) => {
                             setState(() {
                               formData['client'] = value;
+                              widget.sendFormData(formData);
                             })
                           })),
               SizedBox(
@@ -64,6 +76,7 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                       (value) => {
                             setState(() {
                               formData['region'] = value;
+                              widget.sendFormData(formData);
                             })
                           })),
               SizedBox(
@@ -74,23 +87,9 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                       (value) => {
                             setState(() {
                               formData['site'] = value;
+                              widget.sendFormData(formData);
                             })
                           })),
-              Padding(
-                  padding: EdgeInsets.all(10),
-                  child: RaisedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        final prefs = await appPrefs();
-                        setState(() {
-                          formData['created_by'] = prefs.getString(id);
-                        });
-
-                        postWorklog(formData);
-                      }
-                    },
-                    child: Text('Submit'),
-                  ))
             ])));
   }
 }
