@@ -1,16 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/rest/auth.dart';
+import 'package:tem_app/widgets/feedback.dart';
+import 'package:tem_app/rest/api.dart';
 import 'package:tem_app/config/constants.dart';
-import 'package:tem_app/views/initial_logged_in_view.dart';
+import 'package:tem_app/views/logged_in.dart';
 
-class TemLoginForm extends StatefulWidget {
+class WorklogFutureBuilder extends StatelessWidget {
+  WorklogFutureBuilder();
+
   @override
-  TemLoginFormState createState() {
-    return TemLoginFormState();
+  Widget build(BuildContext context) {
+    return Container(
+      child: Expanded(
+          child: FutureBuilder<Map>(
+              future: getWorklogs(),
+              builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+                if (snapshot.hasData) {
+                  return WorklogList(snapshot.data);
+                } else {
+                  return LoadingCircleWidget(108.0);
+                }
+              })),
+    );
   }
 }
 
-class TemLoginFormState extends State<TemLoginForm> {
+class WorklogList extends StatelessWidget {
+  final Map worklogs;
+  WorklogList(this.worklogs);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: this.worklogs['results'].length,
+      itemBuilder: (BuildContext context, int index) {
+        return WorklogCard(this.worklogs, index);
+      },
+    );
+  }
+}
+
+class WorklogCard extends StatelessWidget {
+  final Map worklogs;
+  final int index;
+  WorklogCard(this.worklogs, this.index);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () => print("tapped dat"),
+        child: Card(
+            child: ListTile(
+          title: Text(
+              "${this.worklogs['results'][index]['date']} - ${this.worklogs['results'][index]['summary']}"),
+          subtitle: Row(children: <Widget>[
+            Column(children: <Widget>[
+              Text("${this.worklogs['results'][index]['client']}")
+            ]),
+            Column(children: <Widget>[
+              Text(" - ${this.worklogs['results'][index]['site']}")
+            ]),
+            Column(children: <Widget>[
+              Text(
+                  " - created by ${this.worklogs['results'][index]['created_by']['username']}")
+            ]),
+          ]),
+        )));
+    ;
+  }
+}
+
+class CreateWorklogForm extends StatefulWidget {
+  @override
+  CreateWorklogFormState createState() {
+    return CreateWorklogFormState();
+  }
+}
+
+class CreateWorklogFormState extends State<CreateWorklogForm> {
   final _formKey = GlobalKey<FormState>();
   Map formData = {email: '', password: ''};
 
@@ -24,12 +90,12 @@ class TemLoginFormState extends State<TemLoginForm> {
               TextFormField(
                 decoration: const InputDecoration(
                   icon: Icon(Icons.person),
-                  hintText: 'What\'s your email address?',
-                  labelText: 'Email Address',
+                  hintText: 'Summarize your worklog...',
+                  labelText: 'Summary',
                 ),
                 validator: (value) {
-                  if (!emailRegExp.hasMatch(value)) {
-                    return 'Invalid email address';
+                  if (value == '') {
+                    return 'Please enter a summary.';
                   }
                   setState(() {
                     formData[email] = value;
@@ -38,7 +104,6 @@ class TemLoginFormState extends State<TemLoginForm> {
                 },
               ),
               TextFormField(
-                obscureText: true,
                 decoration: const InputDecoration(
                     icon: Icon(Icons.lock),
                     hintText: 'What\'s your password?',
@@ -59,7 +124,8 @@ class TemLoginFormState extends State<TemLoginForm> {
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         final prefs = await appPrefs();
-                        bool loginSuccess = await tokenLogin(formData);
+                        //bool loginSuccess = await tokenLogin(formData);
+                        bool loginSuccess = true;
                         if (loginSuccess) {
                           Navigator.push(
                               context,
