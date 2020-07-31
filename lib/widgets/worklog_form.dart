@@ -5,8 +5,8 @@ import 'package:tem_app/rest/api.dart';
 class CreateWorklogForm extends StatefulWidget {
   // a callback to a parent set state to get data from form
   final sendFormData;
-
-  CreateWorklogForm(this.sendFormData);
+  final _formKey;
+  CreateWorklogForm(this.sendFormData, this._formKey);
 
   @override
   CreateWorklogFormState createState() {
@@ -15,7 +15,6 @@ class CreateWorklogForm extends StatefulWidget {
 }
 
 class CreateWorklogFormState extends State<CreateWorklogForm> {
-  final _formKey = GlobalKey<FormState>();
   Map formData = {
     'summary': '',
     'client': '',
@@ -32,9 +31,10 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
     return Padding(
         padding: EdgeInsets.all(30),
         child: Form(
-            key: _formKey,
+            key: widget._formKey,
             child: Column(children: <Widget>[
               TextFormField(
+                autofocus: false,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.work),
                   hintText: 'Summarize your worklog...',
@@ -50,7 +50,7 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                   });
                   return null;
                 },
-                onChanged: (value) => {
+                onSaved: (value) => {
                   setState(() {
                     formData['summary'] = value;
                     widget.sendFormData(formData);

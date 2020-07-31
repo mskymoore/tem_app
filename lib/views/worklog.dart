@@ -14,8 +14,8 @@ class WorklogPage extends StatefulWidget {
 }
 
 class _WorklogPageState extends State<WorklogPage> {
-  Map formData;
-
+  Map formData = {'created_by': ''};
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,11 +25,13 @@ class _WorklogPageState extends State<WorklogPage> {
         title: Text(widget.title),
         actions: <Widget>[],
       ),
-      body: CreateWorklogForm((value) => {
-            setState(() {
-              this.formData = value;
-            })
-          }),
+      body: CreateWorklogForm(
+          (value) => {
+                setState(() {
+                  this.formData = value;
+                })
+              },
+          this._formKey),
       floatingActionButton: FabCircularMenu(children: <Widget>[
         IconButton(
             icon: Icon(Icons.assignment_ind),
@@ -44,10 +46,12 @@ class _WorklogPageState extends State<WorklogPage> {
         IconButton(
             icon: Icon(Icons.send),
             onPressed: () async {
-              final prefs = await appPrefs();
-              final user = prefs.getString(id);
-              this.formData['created_by'] = user;
-              postWorklog(this.formData);
+              if (this._formKey.currentState.validate()) {
+                final prefs = await appPrefs();
+                this.formData['created_by'] = prefs.getString(id);
+                postWorklog(this.formData);
+                Navigator.of(context).pushReplacementNamed('/worklog');
+              }
             })
       ]),
     ));
