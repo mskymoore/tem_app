@@ -48,7 +48,7 @@ class _WorklogPageState extends State<WorklogPage> {
             onPressed: () {
               Navigator.of(context)
                   .pushNamed('/create_manhrscharge', arguments: {
-                'title': "Adds Man Hours To Worklog",
+                'title': 'Add Man Hours',
                 'callback': (value) => {
                       setState(() {
                         this.formData['manhours_charges'].add(value);
@@ -60,6 +60,15 @@ class _WorklogPageState extends State<WorklogPage> {
         IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
+              Navigator.of(context)
+                  .pushNamed('/create_equipcharge', arguments: {
+                'title': 'Add Equipment Hours',
+                'callback': (value) => {
+                      setState(() {
+                        this.formData['equipment_charges'].add(value);
+                      })
+                    }
+              });
               print('add equipment charge');
             }),
         IconButton(

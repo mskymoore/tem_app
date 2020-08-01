@@ -3,6 +3,7 @@ import 'package:tem_app/widgets/dropdown.dart';
 import 'package:tem_app/rest/api.dart';
 import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/widgets/manhours.dart';
+import 'package:tem_app/widgets/equipment.dart';
 
 class CreateWorklogForm extends StatefulWidget {
   // a callback to a parent set state to get data from form
@@ -103,6 +104,13 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                   child: Expanded(
                 child: ManHoursList(
                     {"results": this.formData['manhours_charges']}),
+              )),
+              Text("Equipment Charges",
+                  style: TextStyle(decoration: TextDecoration.underline)),
+              Container(
+                  child: Expanded(
+                child: EquipmentList(
+                    {"results": this.formData['equipment_charges']}),
               )),
             ])));
   }

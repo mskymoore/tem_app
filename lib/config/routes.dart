@@ -5,6 +5,7 @@ import 'package:tem_app/views/client.dart';
 import 'package:tem_app/views/initial.dart';
 import 'package:tem_app/views/worklog.dart';
 import 'package:tem_app/views/manhourscharge.dart';
+import 'package:tem_app/views/equipmentcharge.dart';
 
 class RouteGenerator {
   static const String commonTitle = "TEM APP ALPHA";
@@ -14,6 +15,7 @@ class RouteGenerator {
   static const String create_worklog = '/create_worklog';
   static const String client = '/client';
   static const String create_manhrscharge = '/create_manhrscharge';
+  static const String create_equipmentcharge = '/create_equipcharge';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //final args = settings.arguments;
@@ -40,6 +42,11 @@ class RouteGenerator {
           builder: (_) => ManHrsPage(args['title'], args['callback']),
           settings: RouteSettings(name: create_manhrscharge),
         );
+      case create_equipmentcharge:
+        final Map args = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => EquipmentPage(args['title'], args['callback']),
+            settings: RouteSettings(name: create_manhrscharge));
       case create_worklog:
         return MaterialPageRoute(
           builder: (_) => WorklogPage("Create Worklog"),
