@@ -14,7 +14,17 @@ class WorklogPage extends StatefulWidget {
 }
 
 class _WorklogPageState extends State<WorklogPage> {
-  Map formData = {'created_by': ''};
+  Map formData = {
+    summary: '',
+    client: '',
+    'created_by': '',
+    'approved': 'false',
+    'disputed': 'false',
+    'manhours_charges': [],
+    'equipment_charges': [],
+    'included_employees': [1]
+  };
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -36,6 +46,15 @@ class _WorklogPageState extends State<WorklogPage> {
         IconButton(
             icon: Icon(Icons.assignment_ind),
             onPressed: () {
+              Navigator.of(context)
+                  .pushNamed('/create_manhrscharge', arguments: {
+                'title': "Adds Man Hours To Worklog",
+                'callback': (value) => {
+                      setState(() {
+                        this.formData['manhours_charges'].add(value);
+                      })
+                    }
+              });
               print('add manhours charge');
             }),
         IconButton(

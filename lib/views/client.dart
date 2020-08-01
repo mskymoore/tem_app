@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/scaffold.dart';
 import 'package:tem_app/widgets/manhours.dart';
+import 'package:tem_app/widgets/manhrscharge_form.dart';
 
 class ClientPage extends StatefulWidget {
   final String title;
@@ -11,6 +12,7 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return TemScaffold(
@@ -18,7 +20,12 @@ class _ClientPageState extends State<ClientPage> {
       Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[ManHoursFutureBuilder()],
+          children: <Widget>[
+            //ManHoursFutureBuilder(),
+            CreateManHrsChargeForm((value) {
+              print("$value");
+            }, _formKey),
+          ],
         ),
       ),
     );

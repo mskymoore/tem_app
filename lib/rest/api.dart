@@ -48,7 +48,7 @@ Future<Map> postPath(String path, Map data) async {
 }
 
 Future<Map> postWorklog(data) async {
-  return postPath('worklog/', data);
+  return postPath('$worklog/', data);
 }
 
 // async api methods go here
@@ -58,29 +58,37 @@ Future<Map> getWorklogs() async {
 }
 
 Future<Map> getClients() async {
-  return getPath('client');
+  return getPath(client);
 }
 
 Future<Map> getRates() async {
-  return getPath('rate');
+  return getPath(rate);
 }
 
 Future<Map> getSites() async {
-  return getPath('site');
+  return getPath(site);
 }
 
 Future<Map> getEquipments() async {
-  return getPath('equipment');
+  return getPath(equipment);
 }
 
 Future<Map> getDayRates() async {
-  return getPath('dayrate');
+  return getPath(dayrate);
 }
 
 Future<Map> getRegions() async {
-  return getPath('region');
+  return getPath(region);
 }
 
 Future<Map> getManHours() async {
-  return getPath('manhrscharge');
+  return getPath(manhrscharge);
+}
+
+Future<Map> getEmployees() async {
+  return getPath(employee);
+}
+
+Future<Map> getPositions() async {
+  return getPath(position);
 }

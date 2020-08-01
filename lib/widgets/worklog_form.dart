@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/dropdown.dart';
 import 'package:tem_app/rest/api.dart';
+import 'package:tem_app/config/constants.dart';
+import 'package:tem_app/widgets/manhours.dart';
 
 class CreateWorklogForm extends StatefulWidget {
   // a callback to a parent set state to get data from form
@@ -16,8 +18,8 @@ class CreateWorklogForm extends StatefulWidget {
 
 class CreateWorklogFormState extends State<CreateWorklogForm> {
   Map formData = {
-    'summary': '',
-    'client': '',
+    summary: '',
+    client: '',
     'created_by': '',
     'approved': 'false',
     'disputed': 'false',
@@ -34,6 +36,7 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
             key: widget._formKey,
             child: Column(children: <Widget>[
               TextFormField(
+                maxLines: null,
                 autofocus: false,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.work),
@@ -45,14 +48,14 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                     return 'Please enter a summary.';
                   }
                   setState(() {
-                    formData['summary'] = value;
+                    formData[summary] = value;
                     widget.sendFormData(formData);
                   });
                   return null;
                 },
                 onSaved: (value) => {
                   setState(() {
-                    formData['summary'] = value;
+                    formData[summary] = value;
                     widget.sendFormData(formData);
                   })
                 },
@@ -64,10 +67,11 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                       getClients,
                       (value) => {
                             setState(() {
-                              formData['client'] = value;
+                              formData[client] = value;
                               widget.sendFormData(formData);
                             })
-                          })),
+                          },
+                      name)),
               SizedBox(
                   width: double.infinity,
                   child: DropDownWidget(
@@ -75,10 +79,11 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                       getRegions,
                       (value) => {
                             setState(() {
-                              formData['region'] = value;
+                              formData[region] = value;
                               widget.sendFormData(formData);
                             })
-                          })),
+                          },
+                      name)),
               SizedBox(
                   width: double.infinity,
                   child: DropDownWidget(
@@ -86,10 +91,19 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
                       getSites,
                       (value) => {
                             setState(() {
-                              formData['site'] = value;
+                              print(formData);
+                              formData[site] = value;
                               widget.sendFormData(formData);
                             })
-                          })),
+                          },
+                      name)),
+              Text("Man Hours Charges",
+                  style: TextStyle(decoration: TextDecoration.underline)),
+              Container(
+                  child: Expanded(
+                child: ManHoursList(
+                    {"results": this.formData['manhours_charges']}),
+              )),
             ])));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/loading.dart';
 import 'package:tem_app/rest/api.dart';
+import 'package:tem_app/config/constants.dart';
 
 class WorklogFutureBuilder extends StatelessWidget {
   WorklogFutureBuilder();
@@ -29,9 +30,9 @@ class WorklogList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: this.worklogs['results'].length,
+      itemCount: this.worklogs[results].length,
       itemBuilder: (BuildContext context, int index) {
-        return WorklogCard(this.worklogs['results'][index]);
+        return WorklogCard(this.worklogs[results][index]);
       },
     );
   }
@@ -47,12 +48,12 @@ class WorklogCard extends StatelessWidget {
         onTap: () => print("tapped dat"),
         child: Card(
             child: ListTile(
-          title: Text("${this.worklog['date']} - ${this.worklog['summary']}"),
+          title: Text("${this.worklog['date']} - ${this.worklog[summary]}"),
           subtitle: Row(children: <Widget>[
-            Column(children: <Widget>[Text("${this.worklog['client']}")]),
-            Column(children: <Widget>[Text(" - ${this.worklog['site']}")]),
+            Column(children: <Widget>[Text("${this.worklog[client]}")]),
+            Column(children: <Widget>[Text(" - ${this.worklog[site]}")]),
             Column(children: <Widget>[
-              Text(" - created by ${this.worklog['created_by']['username']}")
+              Text(" - created by ${this.worklog['created_by'][username]}")
             ]),
           ]),
         )));

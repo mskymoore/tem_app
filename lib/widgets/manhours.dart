@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/loading.dart';
 import 'package:tem_app/rest/api.dart';
+import 'package:tem_app/config/constants.dart';
 
 class ManHoursFutureBuilder extends StatelessWidget {
   ManHoursFutureBuilder();
@@ -29,9 +30,9 @@ class ManHoursList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: this.manHours['results'].length,
+      itemCount: this.manHours[results].length,
       itemBuilder: (BuildContext context, int index) {
-        return ManHoursCard(this.manHours['results'][index]);
+        return ManHoursCard(this.manHours[results][index]);
       },
     );
   }
@@ -48,10 +49,9 @@ class ManHoursCard extends StatelessWidget {
         child: SafeArea(
             child: Card(
                 child: ListTile(
-          title: Text("${this.manHoursCharge['date']}"),
-          subtitle: Row(children: <Widget>[
+          title: Row(children: <Widget>[
             Column(children: <Widget>[
-              Text("emp# ${this.manHoursCharge['employee']}")
+              Text("emp# ${this.manHoursCharge[employee]}")
             ]),
             Column(children: <Widget>[
               Text(": ${this.manHoursCharge['hours']} hours")

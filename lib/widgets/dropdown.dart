@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/loading.dart';
+import 'package:tem_app/config/constants.dart';
 
 class DropDownWidget extends StatefulWidget {
   final Text hint;
   final dropDownFuture;
   final getValue;
-  DropDownWidget(this.hint, this.dropDownFuture, this.getValue);
+  final String field;
+  DropDownWidget(this.hint, this.dropDownFuture, this.getValue, this.field);
 
   @override
   _DropDownWidgetState createState() => _DropDownWidgetState();
@@ -23,11 +25,11 @@ class _DropDownWidgetState extends State<DropDownWidget> {
               if (snapshot.hasData) {
                 List<DropdownMenuItem<String>> theItems =
                     List<DropdownMenuItem<String>>();
-                for (var i = 0; i < snapshot.data['results'].length; i++) {
+                for (var i = 0; i < snapshot.data[results].length; i++) {
                   theItems.add(DropdownMenuItem(
-                      value: snapshot.data['results'][i]['name'],
+                      value: "${snapshot.data[results][i][widget.field]}",
                       child: Text(
-                        snapshot.data['results'][i]['name'],
+                        "${snapshot.data[results][i][widget.field]}",
                       )));
                 }
                 return DropdownButton<String>(

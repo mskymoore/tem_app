@@ -4,13 +4,16 @@ import 'package:tem_app/views/logged_in.dart';
 import 'package:tem_app/views/client.dart';
 import 'package:tem_app/views/initial.dart';
 import 'package:tem_app/views/worklog.dart';
+import 'package:tem_app/views/manhourscharge.dart';
 
 class RouteGenerator {
+  static const String commonTitle = "TEM APP ALPHA";
   static const String root = '/';
   static const String login = '/login';
   static const String worklog = '/worklog';
   static const String create_worklog = '/create_worklog';
   static const String client = '/client';
+  static const String create_manhrscharge = '/create_manhrscharge';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //final args = settings.arguments;
@@ -28,8 +31,14 @@ class RouteGenerator {
         );
       case worklog:
         return MaterialPageRoute(
-          builder: (_) => MainPage("TEM APP BETA"),
+          builder: (_) => MainPage(commonTitle),
           settings: RouteSettings(name: worklog),
+        );
+      case create_manhrscharge:
+        final Map args = settings.arguments;
+        return MaterialPageRoute(
+          builder: (_) => ManHrsPage(args['title'], args['callback']),
+          settings: RouteSettings(name: create_manhrscharge),
         );
       case create_worklog:
         return MaterialPageRoute(
@@ -38,7 +47,7 @@ class RouteGenerator {
         );
       case client:
         return MaterialPageRoute(
-          builder: (_) => ClientPage("TEM APP BETA"),
+          builder: (_) => ClientPage(commonTitle),
           settings: RouteSettings(name: client),
         );
       default:
