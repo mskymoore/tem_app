@@ -29,22 +29,17 @@ Future<Map> getPath(String path) async {
 Future<Map> postPath(String path, Map data) async {
   final requestPath = "$baseUri/$apiPrefix/$path";
   final requestData = jsonEncode(data);
-  var responseBody;
   print(requestData);
   Map requestHeaders = await authHeaders();
   requestHeaders['Content-Type'] = 'application/json';
   print(requestHeaders.toString());
   final response =
       await http.post(requestPath, headers: requestHeaders, body: requestData);
-  try {
-    var responseBody = jsonDecode(response.body);
-  } catch (e) {
-    print("ERROR: $e");
-    return null;
-  }
+  final responseBody = jsonDecode(response.body);
 
   if (response.statusCode == 201) {
     print("http(${response.statusCode}): $requestPath");
+    print(responseBody);
     return responseBody;
   } else {
     setLastMessage(response.statusCode, requestPath, responseBody, null);
