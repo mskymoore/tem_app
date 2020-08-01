@@ -22,7 +22,7 @@ class _WorklogPageState extends State<WorklogPage> {
     'disputed': 'false',
     'manhours_charges': [],
     'equipment_charges': [],
-    'included_employees': [1]
+    'included_employees': []
   };
 
   final _formKey = GlobalKey<FormState>();
@@ -77,7 +77,31 @@ class _WorklogPageState extends State<WorklogPage> {
               if (this._formKey.currentState.validate()) {
                 final prefs = await appPrefs();
                 this.formData['created_by'] = prefs.getString(id);
-                postWorklog(this.formData);
+                final List manHoursCharges = this.formData['manhours_charges'];
+                final List equipmentCharges =
+                    this.formData['equipment_charges'];
+                this.formData['manhours_charges'] = [];
+                this.formData['equipment_charges'] = [];
+
+                manHoursCharges.forEach((element) {
+                  this
+                      .formData['included_employees']
+                      .add(int.parse(element[employee]));
+                });
+
+                final response = await postWorklog(this.formData);
+
+                manHoursCharges.forEach((element) {
+                  element['created_by'] = prefs.getString(id);
+                  element['worklog'] = response[id];
+                  postManHoursCharge(element);
+                });
+
+                equipmentCharges.forEach((element) {
+                  element['created_by'] = prefs.getString(id);
+                  element['worklog'] = response[id];
+                  postEquipmentCharge(element);
+                });
                 Navigator.of(context).pushReplacementNamed('/worklog');
               }
             })

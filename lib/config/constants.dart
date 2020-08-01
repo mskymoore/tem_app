@@ -31,6 +31,7 @@ final equipment = 'equipment';
 final rate = 'rate';
 final worklog = 'worklog';
 final manhrscharge = 'manhrscharge';
+final equipcharge = 'equipcharge';
 final dayrate = 'dayrate';
 final position = 'position';
 final hours = 'hours';

@@ -29,14 +29,19 @@ Future<Map> getPath(String path) async {
 Future<Map> postPath(String path, Map data) async {
   final requestPath = "$baseUri/$apiPrefix/$path";
   final requestData = jsonEncode(data);
+  var responseBody;
   print(requestData);
   Map requestHeaders = await authHeaders();
   requestHeaders['Content-Type'] = 'application/json';
   print(requestHeaders.toString());
   final response =
       await http.post(requestPath, headers: requestHeaders, body: requestData);
-
-  final responseBody = jsonDecode(response.body);
+  try {
+    var responseBody = jsonDecode(response.body);
+  } catch (e) {
+    print("ERROR: $e");
+    return null;
+  }
 
   if (response.statusCode == 201) {
     print("http(${response.statusCode}): $requestPath");
@@ -51,7 +56,14 @@ Future<Map> postWorklog(data) async {
   return postPath('$worklog/', data);
 }
 
-// async api methods go here
+Future<Map> postManHoursCharge(data) async {
+  return postPath('$manhrscharge/', data);
+}
+
+Future<Map> postEquipmentCharge(data) async {
+  return postPath('$equipcharge/', data);
+}
+
 Future<Map> getWorklogs() async {
   return getPath(
       'worklog/?expand=equipment_charges,manhours_charges,created_by');
