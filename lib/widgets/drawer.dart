@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/rest/auth.dart';
-import 'package:tem_app/widgets/loading.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tem_app/bloc/auth_bloc.dart';
 
 class DrawerFutureBuilder extends StatelessWidget {
   DrawerFutureBuilder();
@@ -9,37 +9,28 @@ class DrawerFutureBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder<Map>(
-          future: usersMe(),
-          builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
-            if (snapshot.hasData) {
-              return DrawerContentsWidget(snapshot.data);
-            } else {
-              return LoadingCircleWidget(108.0);
-            }
-          }),
+      child: DrawerContentsWidget(),
     );
   }
 }
 
 class DrawerContentsWidget extends StatelessWidget {
-  final Map user;
-  DrawerContentsWidget(this.user);
-
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text("${user[firstName]} ${user[lastName]}"),
-            accountEmail: Text(user[username]),
+            accountName:
+                Text('${context.bloc<AuthenticationBloc>().state.user.name}'),
+            accountEmail:
+                Text('${context.bloc<AuthenticationBloc>().state.user.email}'),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
                   ? Colors.blue
                   : Colors.white,
               child: Text(
-                user[firstName][0],
+                '${context.bloc<AuthenticationBloc>().state.user.name[0]}',
                 style: TextStyle(fontSize: 40.0),
               ),
             ),
@@ -63,8 +54,9 @@ class DrawerContentsWidget extends StatelessWidget {
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Navigator.of(context).pop();
-                tokenLogout();
-                Navigator.of(context).pushReplacementNamed('/');
+                context
+                    .bloc<AuthenticationBloc>()
+                    .add(AuthenticationLogoutRequested());
               }),
         ],
       ),

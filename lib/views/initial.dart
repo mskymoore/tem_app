@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/rest/auth.dart';
-import 'package:tem_app/views/login.dart';
-import 'package:tem_app/views/logged_in.dart';
+import 'package:tem_app/views/views.dart';
+import 'package:tem_app/models/models.dart';
 import 'package:tem_app/widgets/loading.dart';
 
 class IsLoginRequired extends StatelessWidget {
@@ -10,13 +10,13 @@ class IsLoginRequired extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder<Map>(
+      child: FutureBuilder<User>(
         future: usersMe(),
-        builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
           if (snapshot.hasData) {
-            return MainPage("TEM APP BETA");
+            return MainPage();
           } else if (snapshot.connectionState == ConnectionState.done) {
-            return LoginPage(title: "TEM LOG IN");
+            return LoginPage();
           } else {
             return LoadingCircleWidget(108.0);
           }

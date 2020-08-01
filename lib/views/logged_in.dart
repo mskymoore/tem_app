@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/widgets/worklog_list.dart';
+import 'package:tem_app/widgets/worklog.dart';
 import 'package:tem_app/widgets/scaffold.dart';
 
-class MainPage extends StatefulWidget {
-  final String title;
-  MainPage(this.title);
+class MainPage extends StatelessWidget {
+  static const String title = 'Worklogs';
+  static const String worklog = '/worklog';
+  static Route route() {
+    return MaterialPageRoute<void>(
+        builder: (_) => MainPage(), settings: RouteSettings(name: worklog));
+  }
 
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return TemScaffold(

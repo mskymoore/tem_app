@@ -1,0 +1,11 @@
+name: user
+description: Dart package which manages the user domain.
+version: 0.0.1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  equatable: ^1.2.0
+  meta: ^1.1.8
+  uuid: ^2.1.0

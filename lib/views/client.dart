@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/scaffold.dart';
-import 'package:tem_app/widgets/manhours.dart';
 import 'package:tem_app/widgets/manhrscharge_form.dart';
 
 class ClientPage extends StatefulWidget {

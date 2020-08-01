@@ -28,12 +28,12 @@ class RouteGenerator {
         );
       case login:
         return MaterialPageRoute(
-          builder: (_) => LoginPage(title: "TEM LOG IN"),
+          builder: (_) => LoginPage(),
           settings: RouteSettings(name: login),
         );
       case worklog:
         return MaterialPageRoute(
-          builder: (_) => MainPage(commonTitle),
+          builder: (_) => MainPage(),
           settings: RouteSettings(name: worklog),
         );
       case create_manhrscharge:
@@ -59,7 +59,7 @@ class RouteGenerator {
         );
       default:
         return MaterialPageRoute(
-          builder: (_) => LoginPage(title: "TEM LOG IN"),
+          builder: (_) => LoginPage(),
           settings: RouteSettings(name: login),
         );
     }

@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/login_form.dart';
+import 'package:tem_app/auth/auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tem_app/bloc/login_bloc.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
+class LoginPage extends StatelessWidget {
+  static const String title = 'Login';
+  static const String login = '/login';
+  static Route route() {
+    return MaterialPageRoute<void>(
+        builder: (_) => LoginPage(), settings: RouteSettings(name: login));
+  }
 
-  final String title;
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TemLoginForm(),
-          ],
+      appBar: AppBar(title: const Text('Login')),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: BlocProvider(
+          create: (context) {
+            return LoginBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepo>(context),
+            );
+          },
+          child: LoginForm(),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:tem_app/config/constants.dart';
 import 'dart:convert';
+import 'package:tem_app/models/models.dart';
 
 Future<bool> tokenLogin(formData) async {
   final loginUri = '$baseUri/$authPrefix/token/login';
@@ -35,7 +36,7 @@ void tokenLogout() async {
   }
 }
 
-Future<Map> usersMe() async {
+Future<User> usersMe() async {
   final meUri = '$baseUri/$authPrefix/users/me';
   final response = await http.get(meUri, headers: await authHeaders());
   final prefs = await appPrefs();
@@ -44,10 +45,9 @@ Future<Map> usersMe() async {
 
   if (response.statusCode == 200) {
     final user = jsonDecode(response.body);
-    prefs.setString(username, user[username]);
-    prefs.setString(name, "${user[firstName]} ${user[lastName]}");
-    prefs.setString(id, "${user[id]}");
-    return user;
+
+    return User("${user['id']}", user['username'],
+        "${user['first_name']} ${user['last_name']}");
   } else {
     prefs.setString(
         lastApiResponseMessage, "${response.statusCode}: ${response.body}");

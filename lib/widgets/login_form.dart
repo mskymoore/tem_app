@@ -1,87 +1,97 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/rest/auth.dart';
-import 'package:tem_app/config/constants.dart';
+import 'package:formz/formz.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tem_app/bloc/login_bloc.dart';
 
-class TemLoginForm extends StatefulWidget {
+class LoginForm extends StatelessWidget {
   @override
-  TemLoginFormState createState() {
-    return TemLoginFormState();
+  Widget build(BuildContext context) {
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        if (state.status.isSubmissionFailure) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(content: Text('Authentication Failure')),
+            );
+        }
+      },
+      child: Align(
+        alignment: const Alignment(0, -1 / 3),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _UsernameInput(),
+            const Padding(padding: EdgeInsets.all(12)),
+            _PasswordInput(),
+            const Padding(padding: EdgeInsets.all(12)),
+            _LoginButton(),
+          ],
+        ),
+      ),
+    );
   }
 }
 
-class TemLoginFormState extends State<TemLoginForm> {
-  final _formKey = GlobalKey<FormState>();
-  Map formData = {email: '', password: ''};
-
+class _UsernameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.all(30),
-        child: Form(
-            key: _formKey,
-            child: Column(children: <Widget>[
-              TextFormField(
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.person),
-                  hintText: 'What\'s your email address?',
-                  labelText: 'Email Address',
-                ),
-                validator: (value) {
-                  if (!emailRegExp.hasMatch(value)) {
-                    return 'Invalid email address';
-                  }
-                  setState(() {
-                    formData[email] = value;
-                  });
-                  return null;
-                },
-              ),
-              TextFormField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                    icon: Icon(Icons.lock),
-                    hintText: 'What\'s your password?',
-                    labelText: 'Password'),
-                validator: (value) {
-                  if (value.length < 8) {
-                    return 'Password must be at least 8 characters';
-                  }
-                  setState(() {
-                    formData[password] = value;
-                  });
-                  return null;
-                },
-              ),
-              Padding(
-                  padding: EdgeInsets.all(10),
-                  child: RaisedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        final prefs = await appPrefs();
-                        bool loginSuccess = await tokenLogin(formData);
-                        if (loginSuccess) {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/worklog');
-                        } else {
-                          showDialog(
-                            context: context,
-                            child: AlertDialog(
-                              title: Text(
-                                  prefs.getString(lastApiResponseMessage) ??
-                                      ""),
-                              actions: [
-                                FlatButton(
-                                  child: Text('OK'),
-                                  onPressed: () => Navigator.of(context).pop(),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) => previous.username != current.username,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('loginForm_usernameInput_textField'),
+          onChanged: (username) =>
+              context.bloc<LoginBloc>().add(LoginUsernameChanged(username)),
+          decoration: InputDecoration(
+            labelText: 'username',
+            errorText: state.username.invalid ? 'invalid username' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _PasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) => previous.password != current.password,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('loginForm_passwordInput_textField'),
+          onChanged: (password) =>
+              context.bloc<LoginBloc>().add(LoginPasswordChanged(password)),
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'password',
+            errorText: state.password.invalid ? 'invalid password' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _LoginButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        return state.status.isSubmissionInProgress
+            ? const CircularProgressIndicator()
+            : RaisedButton(
+                key: const Key('loginForm_continue_raisedButton'),
+                child: const Text('Login'),
+                onPressed: state.status.isValidated
+                    ? () {
+                        context.bloc<LoginBloc>().add(const LoginSubmitted());
                       }
-                    },
-                    child: Text('Login'),
-                  ))
-            ])));
+                    : null,
+              );
+      },
+    );
   }
 }
