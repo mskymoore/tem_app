@@ -7,23 +7,26 @@ part 'worklog_event.dart';
 part 'worklog_state.dart';
 
 class WorklogBloc extends Bloc<WorklogEvent, WorklogState> {
-  WorklogBloc() : super(WorklogState.initial());
-
-  WorklogState get initialState => WorklogState.initial();
+  WorklogBloc() : super(WorklogListState());
 
   @override
   Stream<WorklogState> mapEventToState(WorklogEvent event) async* {
-    if (event is CreateWorklogButtonTapped ||
-        event is ManHoursChargeCreated ||
-        event is EquipChargeCreated) {
-      yield WorklogState.creatingWorklog();
-    } else if (event is WorklogCreated) {
-      yield WorklogState.viewingWorklogList();
-    } else if (event is CreateEquipChargeButtonTapped) {
-      yield WorklogState.creatingEquipCharge();
-    } else if (event is CreateManHoursChargeButtonTapped) {
-      yield WorklogState.creatingManHoursCharge();
-    } else
-      yield WorklogState.viewingWorklogList();
+    switch (event) {
+      case WorklogEvent.CreateWorklogButtonTapped:
+      case WorklogEvent.ManHoursChargeCreated:
+      case WorklogEvent.EquipChargeCreated:
+        yield WorklogFormState();
+        break;
+      case WorklogEvent.WorklogCreated:
+      case WorklogEvent.WorklogCardTapped:
+        yield WorklogListState();
+        break;
+      case WorklogEvent.CreateEquipChargeButtonTapped:
+        yield EquipChargeFormState();
+        break;
+      case WorklogEvent.CreateManHoursChargeButtonTapped:
+        yield ManHoursChargeFormState();
+        break;
+    }
   }
 }

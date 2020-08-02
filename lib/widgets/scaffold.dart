@@ -36,7 +36,7 @@ class AppScaffold extends StatelessWidget {
               onPressed: () {
                 context
                     .bloc<WorklogBloc>()
-                    .add(const CreateWorklogButtonTapped());
+                    .add(WorklogEvent.CreateWorklogButtonTapped);
               },
               child: Icon(Icons.add),
               backgroundColor: Colors.green,

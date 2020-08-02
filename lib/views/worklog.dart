@@ -37,25 +37,25 @@ class WorklogPage extends StatelessWidget {
       body: CreateWorklogForm(_formKey),
       floatingActionButton: FabCircularMenu(children: <Widget>[
         IconButton(
-            icon: Icon(Icons.assignment_ind),
-            onPressed: () {
-              context
-                  .bloc<WorklogBloc>()
-                  .add(const CreateEquipChargeButtonTapped());
-            }),
-        IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
               context
                   .bloc<WorklogBloc>()
-                  .add(const CreateManHoursChargeButtonTapped());
+                  .add(WorklogEvent.CreateEquipChargeButtonTapped);
+            }),
+        IconButton(
+            icon: Icon(Icons.assignment_ind),
+            onPressed: () {
+              context
+                  .bloc<WorklogBloc>()
+                  .add(WorklogEvent.CreateManHoursChargeButtonTapped);
             }),
         IconButton(
             icon: Icon(Icons.send),
             onPressed: () async {
               if (this._formKey.currentState.validate()) {
                 print("send it");
-                context.bloc<WorklogBloc>().add(const WorklogCreated());
+                context.bloc<WorklogBloc>().add(WorklogEvent.WorklogCreated);
               }
             })
       ]),

@@ -22,23 +22,18 @@ class MainPage extends StatelessWidget {
             child: BlocListener<WorklogBloc, WorklogState>(
                 listener: (context, state) {
                   print("listener activated");
-                  switch (state.status) {
-                    case WorklogViewStatus.creatingWorklog:
-                      Navigator.of(context).push(WorklogPage.route());
-                      break;
-                    case WorklogViewStatus.creatingEquipCharge:
-                      Navigator.of(context).push(EquipmentPage.route());
-                      break;
-                    case WorklogViewStatus.creatingManHoursCharge:
-                      Navigator.of(context).push(ManHrsPage.route());
-                      break;
-                    case WorklogViewStatus.viewingWorklogList:
-                      if (ModalRoute.of(context).settings.name == '/worklog') {
-                        Navigator.of(context)
-                            .pushReplacement(WorklogPage.route());
-                      } else {}
-                      Navigator.of(context).pop();
-                      break;
+                  if (state is WorklogFormState) {
+                    Navigator.of(context).push(WorklogPage.route());
+                  } else if (state is EquipChargeFormState) {
+                    Navigator.of(context).push(EquipmentPage.route());
+                  } else if (state is ManHoursChargeFormState) {
+                    Navigator.of(context).push(ManHrsPage.route());
+                  } else {
+                    if (ModalRoute.of(context).settings.name == '/worklog') {
+                      Navigator.of(context)
+                          .pushReplacement(WorklogPage.route());
+                    } else {}
+                    Navigator.of(context).pop();
                   }
                 },
                 child: Column(
