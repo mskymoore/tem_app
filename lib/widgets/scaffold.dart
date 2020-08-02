@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/drawer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tem_app/bloc/worklog/worklog_bloc.dart';
 
 void plusButtonBehavior(context) {
   final currentRoute = ModalRoute.of(context).settings.name;
@@ -14,10 +16,11 @@ void plusButtonBehavior(context) {
   }
 }
 
-class TemScaffold extends StatelessWidget {
+class AppScaffold extends StatelessWidget {
   final String title;
   final Widget body;
-  const TemScaffold(this.title, this.body);
+  final Route plusButtonRoute;
+  const AppScaffold(this.title, this.body, this.plusButtonRoute);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,9 @@ class TemScaffold extends StatelessWidget {
             body: this.body,
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                plusButtonBehavior(context);
+                context
+                    .bloc<WorklogBloc>()
+                    .add(const CreateWorklogButtonTapped());
               },
               child: Icon(Icons.add),
               backgroundColor: Colors.green,

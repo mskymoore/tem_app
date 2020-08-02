@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tem_app/auth/auth.dart';
+import 'package:tem_app/bloc/auth/auth.dart';
 import 'package:tem_app/user/user.dart';
 import 'package:tem_app/app.dart';
 

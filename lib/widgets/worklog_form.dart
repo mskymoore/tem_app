@@ -5,19 +5,17 @@ import 'package:tem_app/config/constants.dart';
 import 'package:tem_app/widgets/manhours.dart';
 import 'package:tem_app/widgets/equipment.dart';
 
-class CreateWorklogForm extends StatefulWidget {
-  // a callback to a parent set state to get data from form
-  final sendFormData;
-  final _formKey;
-  CreateWorklogForm(this.sendFormData, this._formKey);
-
-  @override
-  CreateWorklogFormState createState() {
-    return CreateWorklogFormState();
+class CreateWorklogForm extends StatelessWidget {
+  static const String _create_worklog = '/create_worklog';
+  static Route route(key) {
+    return MaterialPageRoute<void>(
+        builder: (_) => CreateWorklogForm(key),
+        settings: RouteSettings(name: _create_worklog));
   }
-}
 
-class CreateWorklogFormState extends State<CreateWorklogForm> {
+  CreateWorklogForm(this._formKey);
+  final _formKey;
+
   Map formData = {
     summary: '',
     client: '',
@@ -29,75 +27,43 @@ class CreateWorklogFormState extends State<CreateWorklogForm> {
     'included_employees': [1]
   };
 
+  //final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.all(30),
         child: Form(
-            key: widget._formKey,
+            key: _formKey,
             child: Column(children: <Widget>[
               TextFormField(
-                maxLines: null,
-                autofocus: false,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.work),
-                  hintText: 'Summarize your worklog...',
-                  labelText: 'Summary',
-                ),
-                validator: (value) {
-                  if (value == '') {
-                    return 'Please enter a summary.';
-                  }
-                  setState(() {
-                    formData[summary] = value;
-                    widget.sendFormData(formData);
-                  });
-                  return null;
-                },
-                onSaved: (value) => {
-                  setState(() {
-                    formData[summary] = value;
-                    widget.sendFormData(formData);
-                  })
-                },
-              ),
+                  maxLines: null,
+                  autofocus: false,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.work),
+                    hintText: 'Summarize your worklog...',
+                    labelText: 'Summary',
+                  ),
+                  validator: (value) {
+                    if (value == '') {
+                      return 'Please enter a summary.';
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) => {}),
+              SizedBox(
+                  width: double.infinity,
+                  child: DropDownWidget(Text("Choose the client"), getClients,
+                      (value) => {}, name)),
+              SizedBox(
+                  width: double.infinity,
+                  child: DropDownWidget(Text("Choose the region"), getRegions,
+                      (value) => {}, name)),
               SizedBox(
                   width: double.infinity,
                   child: DropDownWidget(
-                      Text("Choose the client"),
-                      getClients,
-                      (value) => {
-                            setState(() {
-                              formData[client] = value;
-                              widget.sendFormData(formData);
-                            })
-                          },
-                      name)),
-              SizedBox(
-                  width: double.infinity,
-                  child: DropDownWidget(
-                      Text("Choose the region"),
-                      getRegions,
-                      (value) => {
-                            setState(() {
-                              formData[region] = value;
-                              widget.sendFormData(formData);
-                            })
-                          },
-                      name)),
-              SizedBox(
-                  width: double.infinity,
-                  child: DropDownWidget(
-                      Text("Choose the site"),
-                      getSites,
-                      (value) => {
-                            setState(() {
-                              print(formData);
-                              formData[site] = value;
-                              widget.sendFormData(formData);
-                            })
-                          },
-                      name)),
+                      Text("Choose the site"), getSites, (value) => {}, name)),
               Text("Man Hours Charges",
                   style: TextStyle(decoration: TextDecoration.underline)),
               Container(

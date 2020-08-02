@@ -1,3 +1,3 @@
 library authentication_repository;
 
-export 'auth/auth.dart';
+export 'bloc/auth/auth.dart';

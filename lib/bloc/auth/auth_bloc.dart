@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:tem_app/auth/auth.dart';
+import 'package:tem_app/bloc/auth/auth.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';

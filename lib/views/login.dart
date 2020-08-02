@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/login_form.dart';
-import 'package:tem_app/auth/auth.dart';
+import 'package:tem_app/bloc/auth/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tem_app/bloc/login_bloc.dart';
+import 'package:tem_app/bloc/login/login_bloc.dart';
 
 class LoginPage extends StatelessWidget {
   static const String title = 'Login';

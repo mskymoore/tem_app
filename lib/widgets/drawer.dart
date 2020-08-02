@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tem_app/rest/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tem_app/bloc/auth_bloc.dart';
+import 'package:tem_app/bloc/auth/auth_bloc.dart';
 
 class DrawerFutureBuilder extends StatelessWidget {
   DrawerFutureBuilder();

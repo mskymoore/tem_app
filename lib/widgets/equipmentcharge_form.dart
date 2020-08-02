@@ -4,19 +4,10 @@ import 'package:tem_app/widgets/dropdown.dart';
 import 'package:tem_app/rest/api.dart';
 import 'package:flutter/services.dart';
 
-class CreateEquipmentChargeForm extends StatefulWidget {
-  // a callback to a parent set state to get data from form
-  final sendFormData;
+class CreateEquipmentChargeForm extends StatelessWidget {
   final _formKey;
-  CreateEquipmentChargeForm(this.sendFormData, this._formKey);
+  CreateEquipmentChargeForm(this._formKey);
 
-  @override
-  CreateEquipmentChargeFormState createState() {
-    return CreateEquipmentChargeFormState();
-  }
-}
-
-class CreateEquipmentChargeFormState extends State<CreateEquipmentChargeForm> {
   Map formData = {
     hours: 0.0,
     equipment: 1,
@@ -29,7 +20,7 @@ class CreateEquipmentChargeFormState extends State<CreateEquipmentChargeForm> {
     return Padding(
         padding: EdgeInsets.all(30),
         child: Form(
-            key: widget._formKey,
+            key: this._formKey,
             child: Column(children: <Widget>[
               TextFormField(
                 keyboardType: TextInputType.number,
@@ -44,31 +35,14 @@ class CreateEquipmentChargeFormState extends State<CreateEquipmentChargeForm> {
                       double.parse(value) > 24.0) {
                     return 'Please enter up to 24 hours, e.g., 9.6, 12.3';
                   }
-                  setState(() {
-                    formData[hours] = double.parse(value);
-                    widget.sendFormData(formData);
-                  });
                   return null;
                 },
-                onSaved: (value) => {
-                  setState(() {
-                    formData[hours] = double.parse(value);
-                    widget.sendFormData(formData);
-                  })
-                },
+                onSaved: (value) => {},
               ),
               SizedBox(
                   width: double.infinity,
-                  child: DropDownWidget(
-                      Text("Choose the $equipment"),
-                      getEquipments,
-                      (value) => {
-                            setState(() {
-                              formData[equipment] = value;
-                              widget.sendFormData(formData);
-                            })
-                          },
-                      id)),
+                  child: DropDownWidget(Text("Choose the $equipment"),
+                      getEquipments, (value) => {print(value)}, id)),
             ])));
   }
 }

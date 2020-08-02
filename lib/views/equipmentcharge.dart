@@ -3,45 +3,37 @@ import 'package:tem_app/widgets/equipmentcharge_form.dart';
 import 'package:tem_app/widgets/drawer.dart';
 import 'package:tem_app/config/constants.dart';
 
-class EquipmentPage extends StatefulWidget {
-  final String title;
-  final appendToWorklog;
-  EquipmentPage(this.title, this.appendToWorklog);
+class EquipmentPage extends StatelessWidget {
+  static const String createEquipCharge = '/create_equipcharge';
+  static Route route() {
+    return MaterialPageRoute<void>(
+        builder: (_) => EquipmentPage(),
+        settings: RouteSettings(name: createEquipCharge));
+  }
 
-  @override
-  _EquipmentPageState createState() => _EquipmentPageState();
-}
-
-class _EquipmentPageState extends State<EquipmentPage> {
   Map formData = {
     hours: 0.0,
     equipment: 1,
     worklog: 0,
     dispute: null,
   };
+
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
         child: Scaffold(
             drawer: Drawer(child: DrawerFutureBuilder()),
             appBar: AppBar(
-              title: Text(widget.title),
+              title: Text("Add Equipment Charge"),
               actions: <Widget>[],
             ),
-            body: CreateEquipmentChargeForm(
-                (value) => {
-                      setState(() {
-                        this.formData = value;
-                      })
-                    },
-                this._formKey),
+            body: CreateEquipmentChargeForm(this._formKey),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 if (this._formKey.currentState.validate()) {
                   print(formData);
-                  this.widget.appendToWorklog(formData);
-                  Navigator.of(context).pop();
                 }
               },
               child: Icon(Icons.add),
