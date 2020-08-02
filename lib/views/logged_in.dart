@@ -4,7 +4,6 @@ import 'package:tem_app/views/views.dart';
 import 'package:tem_app/widgets/scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tem_app/bloc/worklog/worklog_bloc.dart';
-import 'package:tem_app/bloc/worklog/worklog.dart';
 
 class MainPage extends StatelessWidget {
   static const String title = 'Worklogs';
