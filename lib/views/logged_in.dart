@@ -21,13 +21,15 @@ class MainPage extends StatelessWidget {
         Center(
             child: BlocListener<WorklogBloc, WorklogState>(
                 listener: (context, state) {
-                  print("listener activated");
+                  print("MainPage listened");
                   if (state is WorklogFormState) {
                     Navigator.of(context).push(WorklogPage.route());
                   } else if (state is EquipChargeFormState) {
                     Navigator.of(context).push(EquipmentPage.route());
                   } else if (state is ManHoursChargeFormState) {
                     Navigator.of(context).push(ManHrsPage.route());
+                  } else if (state is ValidateEquipChargeState ||
+                      state is ValidateManHoursChargeState) {
                   } else {
                     if (ModalRoute.of(context).settings.name == '/worklog') {
                       Navigator.of(context)
