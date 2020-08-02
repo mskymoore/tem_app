@@ -12,7 +12,6 @@ class WorklogPage extends StatelessWidget {
     return MaterialPageRoute<void>(builder: (_) => WorklogPage('Worklogs'));
   }
 
-  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +21,7 @@ class WorklogPage extends StatelessWidget {
         title: Text(this.title),
         actions: <Widget>[],
       ),
-      body: CreateWorklogForm(_formKey),
+      body: CreateWorklogForm(),
       floatingActionButton: FabCircularMenu(children: <Widget>[
         IconButton(
             icon: Icon(Icons.local_shipping),
@@ -41,10 +40,8 @@ class WorklogPage extends StatelessWidget {
         IconButton(
             icon: Icon(Icons.send),
             onPressed: () async {
-              if (this._formKey.currentState.validate()) {
-                print("send it");
-                context.bloc<WorklogBloc>().add(WorklogEvent.WorklogCreated);
-              }
+              print("send it");
+              context.bloc<WorklogBloc>().add(WorklogEvent.WorklogCreated);
             })
       ]),
     ));

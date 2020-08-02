@@ -24,9 +24,7 @@ class EquipmentPage extends StatelessWidget {
             }
           }
         },
-        child: AppScaffold(
-            "Add Equipment Charge",
-            CreateEquipmentChargeForm(this._formKey),
+        child: AppScaffold("Add Equipment Charge", CreateEquipmentChargeForm(),
             WorklogEvent.AddEquipChargeButtonTapped));
   }
 }

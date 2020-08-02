@@ -3,6 +3,7 @@ import 'package:tem_app/bloc/auth/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tem_app/bloc/auth/auth_bloc.dart';
 import 'package:tem_app/bloc/worklog/worklog_bloc.dart';
+import 'package:tem_app/bloc/worklog_form/worklog_form_bloc.dart';
 import 'package:tem_app/user/user.dart';
 import 'package:tem_app/views/views.dart';
 
@@ -30,6 +31,9 @@ class App extends StatelessWidget {
                     userRepository: userRepository,
                   )),
           BlocProvider(create: (_) => WorklogBloc()),
+          BlocProvider(
+            create: (_) => WorklogFormBloc(),
+          ),
         ],
         child: AppView(),
       ),

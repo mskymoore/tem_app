@@ -36,12 +36,12 @@ class CreateManHrsChargeForm extends StatelessWidget {
               ),
               SizedBox(
                   width: double.infinity,
-                  child: DropDownWidget(Text("Choose the $employee"),
-                      getEmployees, (value) => {}, id)),
+                  child: DropDownWidget(
+                      Text("Choose the $employee"), getEmployees, print, id)),
               SizedBox(
                   width: double.infinity,
-                  child: DropDownWidget(Text("Choose the $position"),
-                      getPositions, (value) => {}, name)),
+                  child: DropDownWidget(
+                      Text("Choose the $position"), getPositions, print, name)),
             ])));
   }
 }
