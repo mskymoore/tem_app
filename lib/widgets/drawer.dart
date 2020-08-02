@@ -50,6 +50,13 @@ class DrawerContentsWidget extends StatelessWidget {
                     .pushAndRemoveUntil(MainPage.route(), (route) => false);
               }),
           ListTile(
+              title: Text("Add Client"),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                Navigator.of(context).pop();
+                print("add client");
+              }),
+          ListTile(
               title: Text("Logout"),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {

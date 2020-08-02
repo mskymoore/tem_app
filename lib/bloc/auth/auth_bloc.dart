@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:tem_app/bloc/auth/auth.dart';
-import 'package:bloc/bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:tem_app/user/user.dart';
@@ -11,7 +11,7 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthenticationBloc
-    extends Bloc<AuthenticationEvent, AuthenticationState> {
+    extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({
     @required AuthenticationRepo authenticationRepository,
     @required UserRepo userRepository,
@@ -19,10 +19,32 @@ class AuthenticationBloc
         assert(userRepository != null),
         _authenticationRepository = authenticationRepository,
         _userRepository = userRepository,
-        super(const AuthenticationState.unknown()) {
+        super(AuthenticationState.unknown()) {
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
       (status) => add(AuthenticationStatusChanged(status)),
     );
+  }
+
+  @override
+  AuthenticationState fromJson(Map<String, dynamic> json) {
+    print('loading authentication state ${json['status']}');
+    if (json['status'] == AuthenticationStatus.authenticated.toString()) {
+      add(AuthenticationStatusChanged(AuthenticationStatus.authenticated));
+      return AuthenticationState.authenticated(User.fromJson(json['user']));
+    } else {
+      add(AuthenticationStatusChanged(AuthenticationStatus.unauthenticated));
+      print('loading authentication state ${json['status']}');
+      return AuthenticationState.unauthenticated();
+    }
+  }
+
+  @override
+  Map<String, dynamic> toJson(AuthenticationState state) {
+    print('storing authentication state ${state.status.toString()}');
+    return <String, dynamic>{
+      "status": state.status.toString(),
+      "user": state.user,
+    };
   }
 
   final AuthenticationRepo _authenticationRepository;
@@ -50,6 +72,7 @@ class AuthenticationBloc
   Future<AuthenticationState> _mapAuthenticationStatusChangedToState(
     AuthenticationStatusChanged event,
   ) async {
+    print(event.status.toString());
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();
