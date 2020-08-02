@@ -24,8 +24,14 @@ class WorklogBloc extends Bloc<WorklogEvent, WorklogState> {
       case WorklogEvent.CreateEquipChargeButtonTapped:
         yield EquipChargeFormState();
         break;
+      case WorklogEvent.AddEquipChargeButtonTapped:
+        yield ValidateEquipChargeState();
+        break;
       case WorklogEvent.CreateManHoursChargeButtonTapped:
         yield ManHoursChargeFormState();
+        break;
+      case WorklogEvent.AddManHoursChargeButtonTapped:
+        yield ValidateManHoursChargeState();
         break;
     }
   }

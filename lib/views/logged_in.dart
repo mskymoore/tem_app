@@ -39,6 +39,6 @@ class MainPage extends StatelessWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[WorklogFutureBuilder()]))),
-        WorklogPage.route());
+        WorklogEvent.CreateWorklogButtonTapped);
   }
 }

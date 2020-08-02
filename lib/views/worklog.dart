@@ -13,17 +13,6 @@ class WorklogPage extends StatelessWidget {
     return MaterialPageRoute<void>(builder: (_) => WorklogPage('Worklogs'));
   }
 
-  Map formData = {
-    summary: '',
-    client: '',
-    'created_by': '',
-    'approved': 'false',
-    'disputed': 'false',
-    'manhours_charges': [],
-    'equipment_charges': [],
-    'included_employees': []
-  };
-
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -37,7 +26,7 @@ class WorklogPage extends StatelessWidget {
       body: CreateWorklogForm(_formKey),
       floatingActionButton: FabCircularMenu(children: <Widget>[
         IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.local_shipping),
             onPressed: () {
               context
                   .bloc<WorklogBloc>()

@@ -10,14 +10,6 @@ class CreateManHrsChargeForm extends StatelessWidget {
   final _formKey;
   CreateManHrsChargeForm(this._formKey);
 
-  Map formData = {
-    hours: 0.0,
-    employee: 1,
-    position: "electrician",
-    worklog: 22,
-    dispute: null,
-  };
-
   @override
   Widget build(BuildContext context) {
     return Padding(

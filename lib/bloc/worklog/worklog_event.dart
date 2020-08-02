@@ -5,7 +5,9 @@ enum WorklogEvent {
   WorklogCreated,
   WorklogCardTapped,
   CreateManHoursChargeButtonTapped,
+  AddManHoursChargeButtonTapped,
   ManHoursChargeCreated,
   CreateEquipChargeButtonTapped,
+  AddEquipChargeButtonTapped,
   EquipChargeCreated,
 }

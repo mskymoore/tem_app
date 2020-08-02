@@ -19,8 +19,8 @@ void plusButtonBehavior(context) {
 class AppScaffold extends StatelessWidget {
   final String title;
   final Widget body;
-  final Route plusButtonRoute;
-  const AppScaffold(this.title, this.body, this.plusButtonRoute);
+  final WorklogEvent plusButtonEvent;
+  const AppScaffold(this.title, this.body, this.plusButtonEvent);
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +34,7 @@ class AppScaffold extends StatelessWidget {
             body: this.body,
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                context
-                    .bloc<WorklogBloc>()
-                    .add(WorklogEvent.CreateWorklogButtonTapped);
+                context.bloc<WorklogBloc>().add(plusButtonEvent);
               },
               child: Icon(Icons.add),
               backgroundColor: Colors.green,

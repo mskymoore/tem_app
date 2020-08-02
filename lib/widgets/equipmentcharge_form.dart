@@ -8,13 +8,6 @@ class CreateEquipmentChargeForm extends StatelessWidget {
   final _formKey;
   CreateEquipmentChargeForm(this._formKey);
 
-  Map formData = {
-    hours: 0.0,
-    equipment: 1,
-    worklog: 0,
-    dispute: null,
-  };
-
   @override
   Widget build(BuildContext context) {
     return Padding(
