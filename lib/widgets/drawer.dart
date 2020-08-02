@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tem_app/bloc/auth/auth_bloc.dart';
+import 'package:tem_app/views/views.dart';
 
 class DrawerFutureBuilder extends StatelessWidget {
   DrawerFutureBuilder();
@@ -39,14 +40,14 @@ class DrawerContentsWidget extends StatelessWidget {
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/client');
               }),
           ListTile(
               title: Text("Worklogs"),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/worklog');
+                Navigator.of(context)
+                    .pushAndRemoveUntil(MainPage.route(), (route) => false);
               }),
           ListTile(
               title: Text("Logout"),

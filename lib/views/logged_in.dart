@@ -28,13 +28,9 @@ class MainPage extends StatelessWidget {
                     Navigator.of(context).push(EquipmentPage.route());
                   } else if (state is ManHoursChargeFormState) {
                     Navigator.of(context).push(ManHrsPage.route());
-                  } else if (state is ValidateEquipChargeState ||
-                      state is ValidateManHoursChargeState) {
+                  } else if (state is ValidatingEquipChargeState ||
+                      state is ValidatingManHoursChargeState) {
                   } else {
-                    if (ModalRoute.of(context).settings.name == '/worklog') {
-                      Navigator.of(context)
-                          .pushReplacement(WorklogPage.route());
-                    } else {}
                     Navigator.of(context).pop();
                   }
                 },

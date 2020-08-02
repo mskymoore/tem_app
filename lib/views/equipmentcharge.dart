@@ -18,7 +18,7 @@ class EquipmentPage extends StatelessWidget {
     return BlocListener<WorklogBloc, WorklogState>(
         listener: (context, state) {
           print('EquipmentPage listened');
-          if (state is ValidateEquipChargeState) {
+          if (state is ValidatingEquipChargeState) {
             if (this._formKey.currentState.validate()) {
               context.bloc<WorklogBloc>().add(WorklogEvent.EquipChargeCreated);
             }

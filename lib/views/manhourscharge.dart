@@ -20,7 +20,7 @@ class ManHrsPage extends StatelessWidget {
     return BlocListener<WorklogBloc, WorklogState>(
         listener: (context, state) {
           print('ManHrsPage listened');
-          if (state is ValidateManHoursChargeState) {
+          if (state is ValidatingManHoursChargeState) {
             if (this._formKey.currentState.validate()) {
               context
                   .bloc<WorklogBloc>()

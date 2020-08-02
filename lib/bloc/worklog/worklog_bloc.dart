@@ -14,10 +14,16 @@ class WorklogBloc extends Bloc<WorklogEvent, WorklogState> {
     print(event);
     switch (event) {
       case WorklogEvent.CreateWorklogButtonTapped:
-      case WorklogEvent.ManHoursChargeCreated:
-      case WorklogEvent.EquipChargeCreated:
         print('WorklogFormState');
         yield WorklogFormState();
+        break;
+      case WorklogEvent.ManHoursChargeCreated:
+        print('ValidatedManHoursChargeState');
+        yield ValidatedManHoursChargeState();
+        break;
+      case WorklogEvent.EquipChargeCreated:
+        print('ValidatedEquipChargeState');
+        yield ValidatedEquipChargeState();
         break;
       case WorklogEvent.WorklogCreated:
       case WorklogEvent.WorklogCardTapped:
@@ -30,7 +36,7 @@ class WorklogBloc extends Bloc<WorklogEvent, WorklogState> {
         break;
       case WorklogEvent.AddEquipChargeButtonTapped:
         print('ValidatEquipChargeState');
-        yield ValidateEquipChargeState();
+        yield ValidatingEquipChargeState();
         break;
       case WorklogEvent.CreateManHoursChargeButtonTapped:
         print('ManHoursChargeFormState');
@@ -38,7 +44,7 @@ class WorklogBloc extends Bloc<WorklogEvent, WorklogState> {
         break;
       case WorklogEvent.AddManHoursChargeButtonTapped:
         print('ValidateManHoursChargeState');
-        yield ValidateManHoursChargeState();
+        yield ValidatingManHoursChargeState();
         break;
     }
   }

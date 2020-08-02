@@ -36,6 +36,10 @@ class ManHoursChargeFormState extends WorklogState {}
 
 class EquipChargeFormState extends WorklogState {}
 
-class ValidateManHoursChargeState extends WorklogState {}
+class ValidatingManHoursChargeState extends WorklogState {}
 
-class ValidateEquipChargeState extends WorklogState {}
+class ValidatingEquipChargeState extends WorklogState {}
+
+class ValidatedManHoursChargeState extends WorklogState {}
+
+class ValidatedEquipChargeState extends WorklogState {}
