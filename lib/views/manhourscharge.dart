@@ -13,7 +13,6 @@ class ManHrsPage extends StatelessWidget {
   }
 
   ManHrsPage();
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +20,10 @@ class ManHrsPage extends StatelessWidget {
         listener: (context, state) {
           print('ManHrsPage listened');
           if (state is ValidatingManHoursChargeState) {
-            if (this._formKey.currentState.validate()) {
-              context
-                  .bloc<WorklogBloc>()
-                  .add(WorklogEvent.ManHoursChargeCreated);
-            }
+            context.bloc<WorklogBloc>().add(WorklogEvent.ManHoursChargeCreated);
           }
         },
-        child: AppScaffold(
-            "Add Man Hours",
-            CreateManHrsChargeForm(this._formKey),
+        child: AppScaffold("Add Man Hours", CreateManHoursChargeForm(),
             WorklogEvent.AddManHoursChargeButtonTapped));
   }
 }

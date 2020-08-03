@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/equipmentcharge_form.dart';
 import 'package:tem_app/widgets/scaffold.dart';
 import 'package:tem_app/bloc/worklog/worklog_bloc.dart';
+import 'package:tem_app/bloc/equipcharge_form/equipcharge_form_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EquipmentPage extends StatelessWidget {
@@ -12,19 +13,16 @@ class EquipmentPage extends StatelessWidget {
         settings: RouteSettings(name: createEquipCharge));
   }
 
-  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocListener<WorklogBloc, WorklogState>(
         listener: (context, state) {
           print('EquipmentPage listened');
           if (state is ValidatingEquipChargeState) {
-            if (this._formKey.currentState.validate()) {
-              context.bloc<WorklogBloc>().add(WorklogEvent.EquipChargeCreated);
-            }
+            context.bloc<EquipChargeFormBloc>().add(EquipChargeSubmitted());
           }
         },
-        child: AppScaffold("Add Equipment Charge", CreateEquipmentChargeForm(),
+        child: AppScaffold("Add Equipment Charge", CreateEquipChargeForm(),
             WorklogEvent.AddEquipChargeButtonTapped));
   }
 }

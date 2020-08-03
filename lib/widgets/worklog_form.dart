@@ -23,16 +23,16 @@ class CreateWorklogForm extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.all(30),
         child: Align(
-            alignment: const Alignment(0, -1 / 3),
+            alignment: const Alignment(0, -1),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               _SummaryInput(),
-              const Padding(padding: EdgeInsets.all(15)),
+              const Padding(padding: EdgeInsets.all(1)),
               _ClientInput(),
-              const Padding(padding: EdgeInsets.all(15)),
+              const Padding(padding: EdgeInsets.all(1)),
               _RegionInput(),
-              const Padding(padding: EdgeInsets.all(15)),
+              const Padding(padding: EdgeInsets.all(1)),
               _SiteInput(),
-              const Padding(padding: EdgeInsets.all(15)),
+              const Padding(padding: EdgeInsets.all(1)),
             ])));
   }
 }
