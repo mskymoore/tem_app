@@ -39,4 +39,12 @@ class RegionChanged extends WorklogFormEvent {
   List<Object> get props => [region];
 }
 
+class NewWorklog extends WorklogFormEvent {
+  const NewWorklog(this.created_by);
+  final String created_by;
+
+  @override
+  List<Object> get props => [created_by];
+}
+
 class WorklogSubmitted extends WorklogFormEvent {}

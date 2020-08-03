@@ -24,3 +24,5 @@ class EquipChanged extends EquipChargeFormEvent {
 }
 
 class EquipChargeSubmitted extends EquipChargeFormEvent {}
+
+class EquipRequiredWorklogSuccessfullySubmitted extends EquipChargeFormEvent {}

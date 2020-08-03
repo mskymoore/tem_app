@@ -25,14 +25,14 @@ class EquipChargeFormBloc
           equipment: equipment, status: Formz.validate([equipment]));
     }
   }
-}
 
-Stream<EquipChargeFormState> _mapEquipChargeSubmittedToState(
-    EquipChargeSubmitted event, EquipChargeFormState state) async* {
-  if (state.status.isValidated) {
-    yield state.copyWith(status: FormzStatus.submissionInProgress);
-    // TODO: call equipcharge repository to submit equipcharge
-  } else {
-    // TODO: display message to let user know it's invalid
+  Stream<EquipChargeFormState> _mapEquipChargeSubmittedToState(
+      EquipChargeSubmitted event, EquipChargeFormState state) async* {
+    if (state.status.isValidated) {
+      yield state.copyWith(status: FormzStatus.submissionInProgress);
+      // TODO: call equipcharge repository to submit equipcharge
+    } else {
+      // TODO: display message to let user know it's invalid
+    }
   }
 }

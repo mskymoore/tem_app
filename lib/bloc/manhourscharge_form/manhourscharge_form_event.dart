@@ -32,3 +32,6 @@ class PositionChanged extends ManHoursChargeFormEvent {
 }
 
 class ManHoursChargeSubmitted extends ManHoursChargeFormEvent {}
+
+class ManHoursRequiredWorklogSuccessfullySubmitted
+    extends ManHoursChargeFormEvent {}

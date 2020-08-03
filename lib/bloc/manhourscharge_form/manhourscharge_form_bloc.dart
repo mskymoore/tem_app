@@ -28,14 +28,14 @@ class ManHoursChargeFormBloc
           employee: employee, status: Formz.validate([employee]));
     }
   }
-}
 
-Stream<ManHoursChargeFormState> _mapManHoursChargeSubmittedToState(
-    ManHoursChargeSubmitted event, ManHoursChargeFormState state) async* {
-  if (state.status.isValidated) {
-    yield state.copyWith(status: FormzStatus.submissionInProgress);
-    // TODO: call manhourscharge repository to submit manhourscharge
-  } else {
-    // TODO: display message to let user know it's invalid
+  Stream<ManHoursChargeFormState> _mapManHoursChargeSubmittedToState(
+      ManHoursChargeSubmitted event, ManHoursChargeFormState state) async* {
+    if (state.status.isValidated) {
+      yield state.copyWith(status: FormzStatus.submissionInProgress);
+      // TODO: call manhourscharge repository to submit manhourscharge
+    } else {
+      // TODO: display message to let user know it's invalid
+    }
   }
 }

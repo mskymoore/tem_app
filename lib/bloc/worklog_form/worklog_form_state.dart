@@ -7,6 +7,7 @@ class WorklogFormState extends Equatable {
     this.client = const ClientInput.pure(),
     this.site = const SiteInput.pure(),
     this.region = const RegionInput.pure(),
+    this.created_by = const CreatedByInput.pure(),
     this.manhours_charges = const <FormzInput>[],
     this.equipment_charges = const <FormzInput>[],
   });
@@ -15,6 +16,7 @@ class WorklogFormState extends Equatable {
   final ClientInput client;
   final SiteInput site;
   final RegionInput region;
+  final CreatedByInput created_by;
   final List<FormzInput> manhours_charges;
   final List<FormzInput> equipment_charges;
 
@@ -24,6 +26,7 @@ class WorklogFormState extends Equatable {
     ClientInput client,
     SiteInput site,
     RegionInput region,
+    CreatedByInput created_by,
     List<FormzInput> manhours_charges,
     List<FormzInput> equipment_charges,
   }) {
@@ -33,11 +36,20 @@ class WorklogFormState extends Equatable {
         client: client ?? this.client,
         site: site ?? this.site,
         region: region ?? this.region,
+        created_by: created_by ?? this.created_by,
         manhours_charges: manhours_charges ?? this.manhours_charges,
         equipment_charges: equipment_charges ?? this.equipment_charges);
   }
 
   @override
-  List<Object> get props =>
-      [status, summary, client, site, manhours_charges, equipment_charges];
+  List<Object> get props => [
+        status,
+        summary,
+        client,
+        site,
+        region,
+        created_by,
+        manhours_charges,
+        equipment_charges
+      ];
 }

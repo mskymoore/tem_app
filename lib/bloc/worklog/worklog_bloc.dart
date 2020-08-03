@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:tem_app/bloc/worklog/worklog.dart';
+import 'package:tem_app/models/equipcharge.dart';
+import 'package:tem_app/models/models.dart';
 
 part 'worklog_event.dart';
 part 'worklog_state.dart';
@@ -14,7 +16,7 @@ class WorklogBloc extends Bloc<WorklogEvent, WorklogState> {
     switch (event) {
       case WorklogEvent.CreateWorklogButtonTapped:
         print('WorklogFormState');
-        yield WorklogFormState();
+        yield ViewingWorklogFormState();
         break;
       case WorklogEvent.ManHoursChargeCreated:
         print('ValidatedManHoursChargeState');
@@ -31,7 +33,7 @@ class WorklogBloc extends Bloc<WorklogEvent, WorklogState> {
         break;
       case WorklogEvent.CreateEquipChargeButtonTapped:
         print('EquipChargeState');
-        yield EquipChargeFormState();
+        yield ViewingEquipChargeFormState();
         break;
       case WorklogEvent.AddEquipChargeButtonTapped:
         print('ValidatEquipChargeState');
@@ -39,7 +41,7 @@ class WorklogBloc extends Bloc<WorklogEvent, WorklogState> {
         break;
       case WorklogEvent.CreateManHoursChargeButtonTapped:
         print('ManHoursChargeFormState');
-        yield ManHoursChargeFormState();
+        yield ViewingManHoursChargeFormState();
         break;
       case WorklogEvent.AddManHoursChargeButtonTapped:
         print('ValidateManHoursChargeState');

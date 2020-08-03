@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:tem_app/models/models.dart';
-
+import 'package:tem_app/rest/api.dart';
 part 'worklog_form_event.dart';
 part 'worklog_form_state.dart';
 
@@ -14,7 +15,13 @@ class WorklogFormBloc extends Bloc<WorklogFormEvent, WorklogFormState> {
     WorklogFormEvent event,
   ) async* {
     print(event.toString());
-    if (event is SummaryChanged) {
+    if (event is NewWorklog) {
+      final created_by = CreatedByInput.dirty(event.created_by);
+      yield WorklogFormState();
+      yield state.copyWith(created_by: created_by);
+    } else if (event is WorklogSubmitted) {
+      yield* _mapWorklogSubmittedToState(event, state);
+    } else if (event is SummaryChanged) {
       final summary = SummaryInput.dirty(event.summary);
       yield state.copyWith(summary: summary, status: Formz.validate([summary]));
     } else if (event is ClientChanged) {
@@ -28,14 +35,32 @@ class WorklogFormBloc extends Bloc<WorklogFormEvent, WorklogFormState> {
       yield state.copyWith(region: region, status: Formz.validate([region]));
     }
   }
-}
 
-Stream<WorklogFormState> _mapWorklogSubmittedToState(
-    WorklogSubmitted event, WorklogFormState state) async* {
-  if (state.status.isValidated) {
-    yield state.copyWith(status: FormzStatus.submissionInProgress);
-    // TODO: call worklog repository to submit worklog
-  } else {
-    // TODO: display message to let user know it's invalid
+  Stream<WorklogFormState> _mapWorklogSubmittedToState(
+      WorklogSubmitted event, WorklogFormState state) async* {
+    if (state.status.isValidated) {
+      print("validated");
+      yield state.copyWith(status: FormzStatus.submissionInProgress);
+      await postWorklog(Worklog(
+          state.summary.value,
+          state.client.value,
+          state.site.value,
+          state.created_by.value,
+          false,
+          false,
+          [],
+          [],
+          [1]).toJson());
+      yield state.copyWith(status: FormzStatus.submissionSuccess);
+      await Future.delayed(Duration(seconds: 1));
+      yield state.copyWith(status: FormzStatus.pure);
+
+      // TODO: call worklog repository to submit worklog
+    } else {
+      yield state.copyWith(status: FormzStatus.submissionFailure);
+      await Future.delayed(Duration(seconds: 1));
+      yield state.copyWith(status: FormzStatus.pure);
+      // TODO: display message to let user know it's invalid
+    }
   }
 }

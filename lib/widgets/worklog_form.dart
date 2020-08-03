@@ -44,13 +44,17 @@ class _SummaryInput extends StatelessWidget {
         buildWhen: (previous, current) => previous.summary != current.summary,
         builder: (context, state) {
           return TextField(
-              maxLines: null,
-              autofocus: false,
-              decoration: const InputDecoration(
+            maxLines: null,
+            autofocus: false,
+            decoration: InputDecoration(
                 icon: Icon(Icons.work),
                 hintText: 'Summarize your worklog...',
                 labelText: 'Summary',
-              ));
+                errorText:
+                    state.summary.invalid ? "Summary may not be blank" : null),
+            onChanged: (value) =>
+                {context.bloc<WorklogFormBloc>().add(SummaryChanged(value))},
+          );
         });
   }
 }
