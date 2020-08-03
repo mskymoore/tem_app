@@ -25,4 +25,10 @@ class EquipChanged extends EquipChargeFormEvent {
 
 class EquipChargeSubmitted extends EquipChargeFormEvent {}
 
-class EquipRequiredWorklogSuccessfullySubmitted extends EquipChargeFormEvent {}
+class EquipRequiredWorklogConfirmedSubmitted extends EquipChargeFormEvent {
+  const EquipRequiredWorklogConfirmedSubmitted(this.worklog);
+  final int worklog;
+
+  @override
+  List<Object> get props => [worklog];
+}

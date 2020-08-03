@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:tem_app/rest/api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:tem_app/models/models.dart';
@@ -15,7 +16,17 @@ class ManHoursChargeFormBloc
     ManHoursChargeFormEvent event,
   ) async* {
     print(event.toString());
-    if (event is HoursChanged) {
+    if (event is ManHoursChargeSubmitted) {
+      yield* _mapManHoursChargeSubmittedToState(event, state);
+    } else if (event is ManHoursRequiredWorklogConfirmedSubmitted) {
+      yield state.copyWith(pendingChargesWorklog: event.worklog);
+      state.pendingCharges.forEach((manHoursCharge) {
+        final charge = manHoursCharge.toJson();
+        charge['worklog'] = event.worklog;
+        postManHoursCharge(charge);
+      });
+      yield ManHoursChargeFormState();
+    } else if (event is HoursChanged) {
       final hours = HoursInput.dirty(event.hours);
       yield state.copyWith(hours: hours, status: Formz.validate([hours]));
     } else if (event is PositionChanged) {
@@ -34,6 +45,20 @@ class ManHoursChargeFormBloc
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       // TODO: call manhourscharge repository to submit manhourscharge
+      List<ManHoursCharge> currentPendingCharges =
+          state.pendingCharges ?? List<ManHoursCharge>();
+      List<ManHoursCharge> pendingCharges = currentPendingCharges +
+          <ManHoursCharge>[
+            ManHoursCharge(
+                double.parse(state.hours.value),
+                int.parse(state.employee.value),
+                state.position.value,
+                int.parse(state.employee.value),
+                null)
+          ];
+      yield state.copyWith(
+          pendingCharges: pendingCharges,
+          status: FormzStatus.submissionSuccess);
     } else {
       // TODO: display message to let user know it's invalid
     }

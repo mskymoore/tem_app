@@ -10,6 +10,7 @@ class WorklogFormState extends Equatable {
     this.created_by = const CreatedByInput.pure(),
     this.manhours_charges = const <FormzInput>[],
     this.equipment_charges = const <FormzInput>[],
+    this.lastConfirmedWorklogId,
   });
   final FormzStatus status;
   final SummaryInput summary;
@@ -19,6 +20,7 @@ class WorklogFormState extends Equatable {
   final CreatedByInput created_by;
   final List<FormzInput> manhours_charges;
   final List<FormzInput> equipment_charges;
+  final int lastConfirmedWorklogId;
 
   WorklogFormState copyWith({
     FormzStatus status,
@@ -29,6 +31,7 @@ class WorklogFormState extends Equatable {
     CreatedByInput created_by,
     List<FormzInput> manhours_charges,
     List<FormzInput> equipment_charges,
+    int lastConfirmedWorklogId,
   }) {
     return WorklogFormState(
         status: status ?? this.status,
@@ -38,7 +41,9 @@ class WorklogFormState extends Equatable {
         region: region ?? this.region,
         created_by: created_by ?? this.created_by,
         manhours_charges: manhours_charges ?? this.manhours_charges,
-        equipment_charges: equipment_charges ?? this.equipment_charges);
+        equipment_charges: equipment_charges ?? this.equipment_charges,
+        lastConfirmedWorklogId:
+            lastConfirmedWorklogId ?? this.lastConfirmedWorklogId);
   }
 
   @override
@@ -50,6 +55,7 @@ class WorklogFormState extends Equatable {
         region,
         created_by,
         manhours_charges,
-        equipment_charges
+        equipment_charges,
+        lastConfirmedWorklogId,
       ];
 }

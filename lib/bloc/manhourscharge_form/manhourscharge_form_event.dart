@@ -33,5 +33,11 @@ class PositionChanged extends ManHoursChargeFormEvent {
 
 class ManHoursChargeSubmitted extends ManHoursChargeFormEvent {}
 
-class ManHoursRequiredWorklogSuccessfullySubmitted
-    extends ManHoursChargeFormEvent {}
+class ManHoursRequiredWorklogConfirmedSubmitted
+    extends ManHoursChargeFormEvent {
+  const ManHoursRequiredWorklogConfirmedSubmitted(this.worklog);
+  final int worklog;
+
+  @override
+  List<Object> get props => [worklog];
+}

@@ -41,7 +41,7 @@ class WorklogFormBloc extends Bloc<WorklogFormEvent, WorklogFormState> {
     if (state.status.isValidated) {
       print("validated");
       yield state.copyWith(status: FormzStatus.submissionInProgress);
-      await postWorklog(Worklog(
+      final response = await postWorklog(Worklog(
           state.summary.value,
           state.client.value,
           state.site.value,
@@ -51,9 +51,17 @@ class WorklogFormBloc extends Bloc<WorklogFormEvent, WorklogFormState> {
           [],
           [],
           [1]).toJson());
-      yield state.copyWith(status: FormzStatus.submissionSuccess);
-      await Future.delayed(Duration(seconds: 1));
-      yield state.copyWith(status: FormzStatus.pure);
+      if (response != null) {
+        yield state.copyWith(status: FormzStatus.submissionSuccess);
+        await Future.delayed(Duration(seconds: 1));
+        yield state.copyWith(status: FormzStatus.pure);
+        add(WorklogConfirmed(response['id']));
+      } else {
+        yield state.copyWith(status: FormzStatus.submissionFailure);
+        await Future.delayed(Duration(seconds: 1));
+        yield state.copyWith(status: FormzStatus.pure);
+        // TODO: display message to let user know it's invalid
+      }
 
       // TODO: call worklog repository to submit worklog
     } else {

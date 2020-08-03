@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/loading.dart';
 import 'package:tem_app/rest/api.dart';
 import 'package:tem_app/config/constants.dart';
+import 'package:tem_app/models/models.dart';
 
 class ManHoursFutureBuilder extends StatelessWidget {
   ManHoursFutureBuilder();
@@ -24,7 +25,7 @@ class ManHoursFutureBuilder extends StatelessWidget {
 }
 
 class ManHoursList extends StatelessWidget {
-  final Map manHours;
+  final manHours;
   ManHoursList(this.manHours);
 
   @override
@@ -39,7 +40,7 @@ class ManHoursList extends StatelessWidget {
 }
 
 class ManHoursCard extends StatelessWidget {
-  final Map manHoursCharge;
+  ManHoursCharge manHoursCharge;
   ManHoursCard(this.manHoursCharge);
 
   @override
@@ -51,13 +52,13 @@ class ManHoursCard extends StatelessWidget {
                 child: ListTile(
           title: Row(children: <Widget>[
             Column(children: <Widget>[
-              Text("emp# ${this.manHoursCharge[employee]}")
+              Text("emp# ${this.manHoursCharge.employee}")
             ]),
             Column(children: <Widget>[
-              Text(": ${this.manHoursCharge['hours']} hours")
+              Text(": ${this.manHoursCharge.hours} hours")
             ]),
             Column(children: <Widget>[
-              Text(" as ${this.manHoursCharge['position']}")
+              Text(" as ${this.manHoursCharge.position}")
             ]),
           ]),
         ))));

@@ -47,4 +47,12 @@ class NewWorklog extends WorklogFormEvent {
   List<Object> get props => [created_by];
 }
 
+class WorklogConfirmed extends WorklogFormEvent {
+  const WorklogConfirmed(this.lastConfirmedWorklogId);
+  final int lastConfirmedWorklogId;
+
+  @override
+  List<Object> get props => [lastConfirmedWorklogId];
+}
+
 class WorklogSubmitted extends WorklogFormEvent {}

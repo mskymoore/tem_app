@@ -7,12 +7,14 @@ class ManHoursChargeFormState extends Equatable {
     this.employee = const EmployeeInput.pure(),
     this.position = const PositionInput.pure(),
     this.pendingCharges,
+    this.pendingChargesWorklog,
   });
   final FormzStatus status;
   final HoursInput hours;
   final EmployeeInput employee;
   final PositionInput position;
   final List<ManHoursCharge> pendingCharges;
+  final int pendingChargesWorklog;
 
   ManHoursChargeFormState copyWith({
     FormzStatus status,
@@ -20,15 +22,19 @@ class ManHoursChargeFormState extends Equatable {
     EmployeeInput employee,
     PositionInput position,
     List<ManHoursCharge> pendingCharges,
+    int pendingChargesWorklog,
   }) {
     return ManHoursChargeFormState(
         status: status ?? this.status,
         hours: hours ?? this.hours,
         employee: employee ?? this.employee,
         position: position ?? this.position,
-        pendingCharges: pendingCharges ?? this.pendingCharges);
+        pendingCharges: pendingCharges ?? this.pendingCharges,
+        pendingChargesWorklog:
+            pendingChargesWorklog ?? this.pendingChargesWorklog);
   }
 
   @override
-  List<Object> get props => [status, hours, employee, pendingCharges];
+  List<Object> get props =>
+      [status, hours, employee, pendingCharges, pendingChargesWorklog];
 }

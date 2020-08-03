@@ -35,12 +35,14 @@ class _WorklogPageState extends State<WorklogPage> {
         BlocListener<WorklogFormBloc, WorklogFormState>(
           listener: (context, state) async {
             if (state.status.isSubmissionSuccess) {
+              final worklog =
+                  context.bloc<WorklogFormBloc>().state.lastConfirmedWorklogId;
               context
                   .bloc<EquipChargeFormBloc>()
-                  .add(EquipRequiredWorklogSuccessfullySubmitted());
+                  .add(EquipRequiredWorklogConfirmedSubmitted(worklog));
               context
                   .bloc<ManHoursChargeFormBloc>()
-                  .add(ManHoursRequiredWorklogSuccessfullySubmitted());
+                  .add(ManHoursRequiredWorklogConfirmedSubmitted(worklog));
 
               await Future.delayed(Duration(seconds: 1));
               context.bloc<WorklogBloc>().add(WorklogEvent.WorklogCreated);
@@ -52,7 +54,9 @@ class _WorklogPageState extends State<WorklogPage> {
           print("WorklogPage listened");
           print(state.toString());
           if (state is ValidatingEquipChargeState ||
-              state is ValidatingManHoursChargeState) {
+              state is ValidatingManHoursChargeState ||
+              state is ValidatedEquipChargeState ||
+              state is ValidatedManHoursChargeState) {
             setState(() {});
           }
         })
