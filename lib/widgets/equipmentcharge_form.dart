@@ -84,7 +84,7 @@ class _EquipmentInputState extends State<_EquipmentInput> {
                           List<DropdownMenuItem<String>>();
                       for (var i = 0; i < snapshot.data[results].length; i++) {
                         theItems.add(DropdownMenuItem(
-                            value: "${snapshot.data[results][i][name]}",
+                            value: "${snapshot.data[results][i][id]}",
                             child: Text(
                               "${snapshot.data[results][i][name]}",
                             )));

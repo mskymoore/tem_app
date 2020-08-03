@@ -15,7 +15,9 @@ class EquipChargeFormBloc
     EquipChargeFormEvent event,
   ) async* {
     print(event.toString());
-    if (event is HoursChanged) {
+    if (event is EquipChargeSubmitted) {
+      yield* _mapEquipChargeSubmittedToState(event, state);
+    } else if (event is HoursChanged) {
       final hours = HoursInput.dirty(event.hours);
       print(Formz.validate([hours]).toString());
       yield state.copyWith(hours: hours, status: Formz.validate([hours]));
@@ -30,9 +32,21 @@ class EquipChargeFormBloc
       EquipChargeSubmitted event, EquipChargeFormState state) async* {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
-      // TODO: call equipcharge repository to submit equipcharge
+      List<EquipCharge> currentPendingCharges =
+          state.pendingCharges ?? List<EquipCharge>();
+      List<EquipCharge> pendingCharges = currentPendingCharges +
+          <EquipCharge>[
+            EquipCharge(
+                double.parse(state.hours.value),
+                int.parse(state.equipment.value),
+                int.parse(state.equipment.value),
+                null)
+          ];
+      yield state.copyWith(
+          pendingCharges: pendingCharges,
+          status: FormzStatus.submissionSuccess);
     } else {
-      // TODO: display message to let user know it's invalid
+      yield state.copyWith(status: FormzStatus.submissionFailure);
     }
   }
 }

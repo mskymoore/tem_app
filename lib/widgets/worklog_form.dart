@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tem_app/bloc/equipcharge_form/equipcharge_form_bloc.dart';
+import 'package:tem_app/bloc/manhourscharge_form/manhourscharge_form_bloc.dart';
 import 'package:tem_app/widgets/dropdown.dart';
 import 'package:tem_app/rest/api.dart';
 import 'package:tem_app/config/constants.dart';
@@ -33,6 +35,30 @@ class CreateWorklogForm extends StatelessWidget {
               const Padding(padding: EdgeInsets.all(1)),
               _SiteInput(),
               const Padding(padding: EdgeInsets.all(1)),
+              Text("Man Hours Charges",
+                  style: TextStyle(decoration: TextDecoration.underline)),
+              Container(
+                  child: Expanded(
+                child: ManHoursList({
+                  "results": context
+                          .bloc<ManHoursChargeFormBloc>()
+                          .state
+                          .pendingCharges ??
+                      []
+                }),
+              )),
+              Text("Equipment Charges",
+                  style: TextStyle(decoration: TextDecoration.underline)),
+              Container(
+                  child: Expanded(
+                child: EquipmentList({
+                  "results": context
+                          .bloc<EquipChargeFormBloc>()
+                          .state
+                          .pendingCharges ??
+                      []
+                }),
+              )),
             ])));
   }
 }

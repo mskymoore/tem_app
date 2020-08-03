@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tem_app/widgets/loading.dart';
 import 'package:tem_app/rest/api.dart';
 import 'package:tem_app/config/constants.dart';
+import 'package:tem_app/models/models.dart';
 
 class EquipmentFutureBuilder extends StatelessWidget {
   EquipmentFutureBuilder();
@@ -39,7 +40,7 @@ class EquipmentList extends StatelessWidget {
 }
 
 class EquipmentCard extends StatelessWidget {
-  final Map equipmentCharge;
+  final EquipCharge equipmentCharge;
   EquipmentCard(this.equipmentCharge);
 
   @override
@@ -51,10 +52,10 @@ class EquipmentCard extends StatelessWidget {
                 child: ListTile(
           title: Row(children: <Widget>[
             Column(children: <Widget>[
-              Text("equipment# ${this.equipmentCharge['equipment']}")
+              Text("equipment# ${this.equipmentCharge.equipment}")
             ]),
             Column(children: <Widget>[
-              Text(": ${this.equipmentCharge['hours']} hours")
+              Text(": ${this.equipmentCharge.hours} hours")
             ]),
           ]),
         ))));

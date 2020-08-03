@@ -10,7 +10,7 @@ import 'package:tem_app/bloc/equipcharge_form/equipcharge_form_bloc.dart';
 import 'package:tem_app/bloc/manhourscharge_form/manhourscharge_form_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WorklogPage extends StatelessWidget {
+class WorklogPage extends StatefulWidget {
   final String title;
   WorklogPage(this.title);
   static Route route() {
@@ -18,15 +18,21 @@ class WorklogPage extends StatelessWidget {
   }
 
   @override
+  _WorklogPageState createState() => _WorklogPageState();
+}
+
+class _WorklogPageState extends State<WorklogPage> {
+  @override
   Widget build(BuildContext context) {
     return Container(
         child: Scaffold(
       drawer: Drawer(child: DrawerFutureBuilder()),
       appBar: AppBar(
-        title: Text(this.title),
+        title: Text(widget.title),
         actions: <Widget>[],
       ),
-      body: BlocListener<WorklogFormBloc, WorklogFormState>(
+      body: MultiBlocListener(listeners: [
+        BlocListener<WorklogFormBloc, WorklogFormState>(
           listener: (context, state) async {
             if (state.status.isSubmissionSuccess) {
               context
@@ -40,7 +46,17 @@ class WorklogPage extends StatelessWidget {
               context.bloc<WorklogBloc>().add(WorklogEvent.WorklogCreated);
             }
           },
-          child: CreateWorklogForm()),
+        ),
+        BlocListener<WorklogBloc, WorklogState>(
+            listener: (context, state) async {
+          print("WorklogPage listened");
+          print(state.toString());
+          if (state is ValidatingEquipChargeState ||
+              state is ValidatingManHoursChargeState) {
+            setState(() {});
+          }
+        })
+      ], child: CreateWorklogForm()),
       floatingActionButton: BlocBuilder<WorklogFormBloc, WorklogFormState>(
           buildWhen: (previous, current) =>
               current.status.isSubmissionInProgress ||

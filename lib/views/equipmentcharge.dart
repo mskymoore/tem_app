@@ -4,6 +4,8 @@ import 'package:tem_app/widgets/scaffold.dart';
 import 'package:tem_app/bloc/worklog/worklog_bloc.dart';
 import 'package:tem_app/bloc/equipcharge_form/equipcharge_form_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tem_app/views/worklog.dart';
+import 'package:tem_app/views/logged_in.dart';
 
 class EquipmentPage extends StatelessWidget {
   static const String createEquipCharge = '/create_equipcharge';
@@ -20,6 +22,7 @@ class EquipmentPage extends StatelessWidget {
           print('EquipmentPage listened');
           if (state is ValidatingEquipChargeState) {
             context.bloc<EquipChargeFormBloc>().add(EquipChargeSubmitted());
+            Navigator.of(context).pop();
           }
         },
         child: AppScaffold("Add Equipment Charge", CreateEquipChargeForm(),
