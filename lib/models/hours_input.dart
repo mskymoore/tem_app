@@ -1,5 +1,6 @@
 import 'package:formz/formz.dart';
-import 'package:tem_app/config/constants.dart';
+
+RegExp hoursRegExp = new RegExp(r"^[0-9]{1,2}\.[0-9]{1,2}$|^[0-9]{1,2}$");
 
 enum HoursValidationError { empty, incorrectFormat }
 

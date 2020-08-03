@@ -1,6 +1,9 @@
 import 'package:formz/formz.dart';
 
-enum UsernameValidationError { empty }
+RegExp emailRegExp = new RegExp(
+    r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
+
+enum UsernameValidationError { empty, incorrectFormat }
 
 class Username extends FormzInput<String, UsernameValidationError> {
   const Username.pure() : super.pure('');
@@ -8,6 +11,14 @@ class Username extends FormzInput<String, UsernameValidationError> {
 
   @override
   UsernameValidationError validator(String value) {
-    return value?.isNotEmpty == true ? null : UsernameValidationError.empty;
+    if (value.isNotEmpty) {
+      if (emailRegExp.hasMatch(value)) {
+        return null;
+      } else {
+        return UsernameValidationError.incorrectFormat;
+      }
+    } else {
+      return UsernameValidationError.empty;
+    }
   }
 }

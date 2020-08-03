@@ -47,7 +47,8 @@ class _UsernameInput extends StatelessWidget {
               context.bloc<LoginBloc>().add(LoginUsernameChanged(username)),
           decoration: InputDecoration(
             labelText: 'username',
-            errorText: state.username.invalid ? 'invalid username' : null,
+            errorText:
+                state.username.invalid ? 'must be an email address' : null,
           ),
         );
       },
