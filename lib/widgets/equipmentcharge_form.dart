@@ -37,16 +37,20 @@ class _HoursInput extends StatelessWidget {
     return BlocBuilder<EquipChargeFormBloc, EquipChargeFormState>(
         buildWhen: (previous, current) => previous.hours != current.hours,
         builder: (context, state) {
-          return TextFormField(
+          return TextField(
+            key: const Key('equipmenChargeForm_hoursInput_textField'),
             maxLines: null,
             autofocus: false,
-            decoration: const InputDecoration(
-              icon: Icon(Icons.work),
+            decoration: InputDecoration(
+              icon: Icon(Icons.timer),
               hintText: 'How many hours?',
               labelText: 'Hours',
+              errorText: state.hours.invalid
+                  ? 'Please enter up to 24 hours, e.g., 9.6, 12.3'
+                  : null,
             ),
-            onChanged: (newValue) => {
-              context.bloc<EquipChargeFormBloc>().add(HoursChanged(newValue)),
+            onChanged: (hours) => {
+              context.bloc<EquipChargeFormBloc>().add(HoursChanged(hours)),
             },
           );
         });

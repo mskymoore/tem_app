@@ -10,7 +10,7 @@ class HoursInput extends FormzInput<String, HoursValidationError> {
   @override
   HoursValidationError validator(String value) {
     if (value.isNotEmpty == true) {
-      if (hoursRegExp.hasMatch(value)) {
+      if (hoursRegExp.hasMatch(value) && double.parse(value) <= 24) {
         return null;
       } else {
         return HoursValidationError.incorrectFormat;

@@ -38,13 +38,20 @@ class _HoursInput extends StatelessWidget {
         buildWhen: (previous, current) => previous.hours != current.hours,
         builder: (context, state) {
           return TextField(
-              maxLines: null,
-              autofocus: false,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.work),
-                hintText: 'How many hours?',
-                labelText: 'Hours',
-              ));
+            maxLines: null,
+            autofocus: false,
+            decoration: InputDecoration(
+              icon: Icon(Icons.timer),
+              hintText: 'How many hours?',
+              labelText: 'Hours',
+              errorText: state.hours.invalid
+                  ? 'Please enter up to 24 hours, e.g., 9.6, 12.3'
+                  : null,
+            ),
+            onChanged: (hours) => {
+              context.bloc<ManHoursChargeFormBloc>().add(HoursChanged(hours))
+            },
+          );
         });
   }
 }
